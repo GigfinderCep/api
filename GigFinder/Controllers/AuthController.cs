@@ -210,7 +210,8 @@ namespace GigFinder.Controllers
                 name = user.name,
                 description = user.description,
                 type = user.type,
-                avg_rating = user.avg_rating
+                avg_rating = user.avg_rating,
+                profile_image = user.profile_image_identifier
             });
         }
 
