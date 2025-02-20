@@ -37,7 +37,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="musican_id" Type="int" />
+          <Property Name="musician_id" Type="int" />
           <Property Name="local_id" Type="int" Nullable="false" />
           <Property Name="date_start" Type="smalldatetime" Nullable="false" />
           <Property Name="date_end" Type="smalldatetime" Nullable="false" />
@@ -84,14 +84,14 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="id_chat" Type="int" />
+          <Property Name="chat_id" Type="int" />
           <Property Name="sender" Type="int" Nullable="false" />
           <Property Name="content" Type="nvarchar" MaxLength="255" />
           <Property Name="file_identifier" Type="int" />
           <Property Name="date" Type="smalldatetime" Nullable="false" />
           <Property Name="type" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
-        <EntityType Name="Musicans">
+        <EntityType Name="Musicians">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -201,15 +201,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EVENT_MUSICAN">
-          <End Role="Musicans" Type="Self.Musicans" Multiplicity="0..1" />
+        <Association Name="FK_EVENT_musician">
+          <End Role="Musicians" Type="Self.Musicians" Multiplicity="0..1" />
           <End Role="Events" Type="Self.Events" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Musicans">
+            <Principal Role="Musicians">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Events">
-              <PropertyRef Name="musican_id" />
+              <PropertyRef Name="musician_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -269,7 +269,7 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Messages">
-              <PropertyRef Name="id_chat" />
+              <PropertyRef Name="chat_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -285,26 +285,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MUSICAN_ID">
+        <Association Name="FK_musician_ID">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Musicans" Type="Self.Musicans" Multiplicity="0..1" />
+          <End Role="Musicians" Type="Self.Musicians" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Musicans">
+            <Dependent Role="Musicians">
               <PropertyRef Name="id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MUSICAN_LANG">
+        <Association Name="FK_musician_LANG">
           <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
-          <End Role="Musicans" Type="Self.Musicans" Multiplicity="*" />
+          <End Role="Musicians" Type="Self.Musicians" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Languages">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Musicans">
+            <Dependent Role="Musicians">
               <PropertyRef Name="songs_lang" />
             </Dependent>
           </ReferentialConstraint>
@@ -367,7 +367,7 @@
           <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Locals" EntityType="Self.Locals" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Musicans" EntityType="Self.Musicans" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Musicians" EntityType="Self.Musicians" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ratings" EntityType="Self.Ratings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserGenres" EntityType="Self.UserGenres" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -395,8 +395,8 @@
             <End Role="Locals" EntitySet="Locals" />
             <End Role="Events" EntitySet="Events" />
           </AssociationSet>
-          <AssociationSet Name="FK_EVENT_MUSICAN" Association="Self.FK_EVENT_MUSICAN">
-            <End Role="Musicans" EntitySet="Musicans" />
+          <AssociationSet Name="FK_EVENT_musician" Association="Self.FK_EVENT_musician">
+            <End Role="Musicians" EntitySet="Musicians" />
             <End Role="Events" EntitySet="Events" />
           </AssociationSet>
           <AssociationSet Name="FK_EVENT_RATINGS" Association="Self.FK_EVENT_RATINGS">
@@ -423,13 +423,13 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Messages" EntitySet="Messages" />
           </AssociationSet>
-          <AssociationSet Name="FK_MUSICAN_ID" Association="Self.FK_MUSICAN_ID">
+          <AssociationSet Name="FK_musician_ID" Association="Self.FK_musician_ID">
             <End Role="Users" EntitySet="Users" />
-            <End Role="Musicans" EntitySet="Musicans" />
+            <End Role="Musicians" EntitySet="Musicians" />
           </AssociationSet>
-          <AssociationSet Name="FK_MUSICAN_LANG" Association="Self.FK_MUSICAN_LANG">
+          <AssociationSet Name="FK_musician_LANG" Association="Self.FK_musician_LANG">
             <End Role="Languages" EntitySet="Languages" />
-            <End Role="Musicans" EntitySet="Musicans" />
+            <End Role="Musicians" EntitySet="Musicians" />
           </AssociationSet>
           <AssociationSet Name="FK_USER_APLICATIONS" Association="Self.FK_USER_APLICATIONS">
             <End Role="Users" EntitySet="Users" />
@@ -453,7 +453,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="gigfinderModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Aplications">
+        <EntityType Name="Aplication">
           <Key>
             <PropertyRef Name="user_id" />
             <PropertyRef Name="event_id" />
@@ -462,10 +462,10 @@
           <Property Name="event_id" Type="Int32" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Events" Relationship="Self.FK_EVENT_APLICATIONS" FromRole="Aplications" ToRole="Events" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_USER_APLICATIONS" FromRole="Aplications" ToRole="Users" />
+          <NavigationProperty Name="Event" Relationship="Self.FK_EVENT_APLICATIONS" FromRole="Aplications" ToRole="Events" />
+          <NavigationProperty Name="User" Relationship="Self.FK_USER_APLICATIONS" FromRole="Aplications" ToRole="Users" />
         </EntityType>
-        <EntityType Name="Attachments">
+        <EntityType Name="Attachment">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -473,26 +473,26 @@
           <Property Name="user_id" Type="Int32" Nullable="false" />
           <Property Name="file_identifier" Type="Int32" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Files" Relationship="Self.FK_ATTACHMENTS_FILE" FromRole="Attachments" ToRole="Files" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_USER_ATTACHMENTS" FromRole="Attachments" ToRole="Users" />
+          <NavigationProperty Name="File" Relationship="Self.FK_ATTACHMENTS_FILE" FromRole="Attachments" ToRole="Files" />
+          <NavigationProperty Name="User" Relationship="Self.FK_USER_ATTACHMENTS" FromRole="Attachments" ToRole="Users" />
         </EntityType>
-        <EntityType Name="ChatRooms">
+        <EntityType Name="ChatRoom">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="user_id1" Type="Int32" Nullable="false" />
           <Property Name="user_id2" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_CHAT_USER_1" FromRole="ChatRooms" ToRole="Users" />
-          <NavigationProperty Name="Users1" Relationship="Self.FK_CHAT_USER_2" FromRole="ChatRooms" ToRole="Users" />
+          <NavigationProperty Name="User" Relationship="Self.FK_CHAT_USER_1" FromRole="ChatRooms" ToRole="Users" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_CHAT_USER_2" FromRole="ChatRooms" ToRole="Users" />
           <NavigationProperty Name="Messages" Relationship="Self.FK_MSG_CHAT" FromRole="ChatRooms" ToRole="Messages" />
         </EntityType>
-        <EntityType Name="Events">
+        <EntityType Name="Event">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="musican_id" Type="Int32" />
+          <Property Name="musician_id" Type="Int32" />
           <Property Name="local_id" Type="Int32" Nullable="false" />
           <Property Name="date_start" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="date_end" Type="DateTime" Nullable="false" Precision="0" />
@@ -503,12 +503,12 @@
           <Property Name="cancel_msg" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="genre_id" Type="Int32" />
           <NavigationProperty Name="Aplications" Relationship="Self.FK_EVENT_APLICATIONS" FromRole="Events" ToRole="Aplications" />
-          <NavigationProperty Name="Genres" Relationship="Self.FK_EVENT_GENRE" FromRole="Events" ToRole="Genres" />
-          <NavigationProperty Name="Locals" Relationship="Self.FK_EVENT_LOCAL" FromRole="Events" ToRole="Locals" />
-          <NavigationProperty Name="Musicans" Relationship="Self.FK_EVENT_MUSICAN" FromRole="Events" ToRole="Musicans" />
+          <NavigationProperty Name="Genre" Relationship="Self.FK_EVENT_GENRE" FromRole="Events" ToRole="Genres" />
+          <NavigationProperty Name="Local" Relationship="Self.FK_EVENT_LOCAL" FromRole="Events" ToRole="Locals" />
+          <NavigationProperty Name="Musician" Relationship="Self.FK_EVENT_musician" FromRole="Events" ToRole="Musicians" />
           <NavigationProperty Name="Ratings" Relationship="Self.FK_EVENT_RATINGS" FromRole="Events" ToRole="Ratings" />
         </EntityType>
-        <EntityType Name="Files">
+        <EntityType Name="File">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -518,7 +518,7 @@
           <NavigationProperty Name="Attachments" Relationship="Self.FK_ATTACHMENTS_FILE" FromRole="Files" ToRole="Attachments" />
           <NavigationProperty Name="Messages" Relationship="Self.FK_MESSAGES_FILE" FromRole="Files" ToRole="Messages" />
         </EntityType>
-        <EntityType Name="Genres">
+        <EntityType Name="Genre">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -527,15 +527,15 @@
           <NavigationProperty Name="Events" Relationship="Self.FK_EVENT_GENRE" FromRole="Genres" ToRole="Events" />
           <NavigationProperty Name="Users" Relationship="Self.UserGenres" FromRole="Genres" ToRole="Users" />
         </EntityType>
-        <EntityType Name="Languages">
+        <EntityType Name="Language">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="lang" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Musicans" Relationship="Self.FK_MUSICAN_LANG" FromRole="Languages" ToRole="Musicans" />
+          <NavigationProperty Name="Musicians" Relationship="Self.FK_musician_LANG" FromRole="Languages" ToRole="Musicians" />
         </EntityType>
-        <EntityType Name="Locals">
+        <EntityType Name="Local">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -544,24 +544,24 @@
           <Property Name="x_coordination" Type="Double" Nullable="false" />
           <Property Name="y_coordination" Type="Double" Nullable="false" />
           <NavigationProperty Name="Events" Relationship="Self.FK_EVENT_LOCAL" FromRole="Locals" ToRole="Events" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_ID_LOCAL" FromRole="Locals" ToRole="Users" />
+          <NavigationProperty Name="User" Relationship="Self.FK_ID_LOCAL" FromRole="Locals" ToRole="Users" />
         </EntityType>
-        <EntityType Name="Messages">
+        <EntityType Name="Message">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_chat" Type="Int32" />
+          <Property Name="chat_id" Type="Int32" />
           <Property Name="sender" Type="Int32" Nullable="false" />
           <Property Name="content" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="file_identifier" Type="Int32" />
           <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="ChatRooms" Relationship="Self.FK_MSG_CHAT" FromRole="Messages" ToRole="ChatRooms" />
-          <NavigationProperty Name="Files" Relationship="Self.FK_MESSAGES_FILE" FromRole="Messages" ToRole="Files" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_MSG_USER" FromRole="Messages" ToRole="Users" />
+          <NavigationProperty Name="ChatRoom" Relationship="Self.FK_MSG_CHAT" FromRole="Messages" ToRole="ChatRooms" />
+          <NavigationProperty Name="File" Relationship="Self.FK_MESSAGES_FILE" FromRole="Messages" ToRole="Files" />
+          <NavigationProperty Name="User" Relationship="Self.FK_MSG_USER" FromRole="Messages" ToRole="Users" />
         </EntityType>
-        <EntityType Name="Musicans">
+        <EntityType Name="Musician">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -569,11 +569,11 @@
           <Property Name="size" Type="Byte" Nullable="false" />
           <Property Name="price" Type="Int32" Nullable="false" />
           <Property Name="songs_lang" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Events" Relationship="Self.FK_EVENT_MUSICAN" FromRole="Musicans" ToRole="Events" />
-          <NavigationProperty Name="Languages" Relationship="Self.FK_MUSICAN_LANG" FromRole="Musicans" ToRole="Languages" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_MUSICAN_ID" FromRole="Musicans" ToRole="Users" />
+          <NavigationProperty Name="Events" Relationship="Self.FK_EVENT_musician" FromRole="Musicians" ToRole="Events" />
+          <NavigationProperty Name="Language" Relationship="Self.FK_musician_LANG" FromRole="Musicians" ToRole="Languages" />
+          <NavigationProperty Name="User" Relationship="Self.FK_musician_ID" FromRole="Musicians" ToRole="Users" />
         </EntityType>
-        <EntityType Name="Ratings">
+        <EntityType Name="Rating">
           <Key>
             <PropertyRef Name="user_id" />
             <PropertyRef Name="event_id" />
@@ -581,10 +581,10 @@
           <Property Name="user_id" Type="Int32" Nullable="false" />
           <Property Name="event_id" Type="Int32" Nullable="false" />
           <Property Name="avg_rating" Type="Byte" Nullable="false" />
-          <NavigationProperty Name="Events" Relationship="Self.FK_EVENT_RATINGS" FromRole="Ratings" ToRole="Events" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_USER_VALORATIONS" FromRole="Ratings" ToRole="Users" />
+          <NavigationProperty Name="Event" Relationship="Self.FK_EVENT_RATINGS" FromRole="Ratings" ToRole="Events" />
+          <NavigationProperty Name="User" Relationship="Self.FK_USER_VALORATIONS" FromRole="Ratings" ToRole="Users" />
         </EntityType>
-        <EntityType Name="Users">
+        <EntityType Name="User">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -599,15 +599,15 @@
           <NavigationProperty Name="Attachments" Relationship="Self.FK_USER_ATTACHMENTS" FromRole="Users" ToRole="Attachments" />
           <NavigationProperty Name="ChatRooms" Relationship="Self.FK_CHAT_USER_1" FromRole="Users" ToRole="ChatRooms" />
           <NavigationProperty Name="ChatRooms1" Relationship="Self.FK_CHAT_USER_2" FromRole="Users" ToRole="ChatRooms" />
-          <NavigationProperty Name="Locals" Relationship="Self.FK_ID_LOCAL" FromRole="Users" ToRole="Locals" />
+          <NavigationProperty Name="Local" Relationship="Self.FK_ID_LOCAL" FromRole="Users" ToRole="Locals" />
           <NavigationProperty Name="Messages" Relationship="Self.FK_MSG_USER" FromRole="Users" ToRole="Messages" />
-          <NavigationProperty Name="Musicans" Relationship="Self.FK_MUSICAN_ID" FromRole="Users" ToRole="Musicans" />
+          <NavigationProperty Name="Musician" Relationship="Self.FK_musician_ID" FromRole="Users" ToRole="Musicians" />
           <NavigationProperty Name="Ratings" Relationship="Self.FK_USER_VALORATIONS" FromRole="Users" ToRole="Ratings" />
           <NavigationProperty Name="Genres" Relationship="Self.UserGenres" FromRole="Users" ToRole="Genres" />
         </EntityType>
         <Association Name="FK_EVENT_APLICATIONS">
-          <End Role="Events" Type="Self.Events" Multiplicity="1" />
-          <End Role="Aplications" Type="Self.Aplications" Multiplicity="*" />
+          <End Role="Events" Type="Self.Event" Multiplicity="1" />
+          <End Role="Aplications" Type="Self.Aplication" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Events">
               <PropertyRef Name="id" />
@@ -618,8 +618,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_USER_APLICATIONS">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Aplications" Type="Self.Aplications" Multiplicity="*" />
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Aplications" Type="Self.Aplication" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="id" />
@@ -630,8 +630,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ATTACHMENTS_FILE">
-          <End Role="Files" Type="Self.Files" Multiplicity="1" />
-          <End Role="Attachments" Type="Self.Attachments" Multiplicity="*" />
+          <End Role="Files" Type="Self.File" Multiplicity="1" />
+          <End Role="Attachments" Type="Self.Attachment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Files">
               <PropertyRef Name="id" />
@@ -642,8 +642,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_USER_ATTACHMENTS">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Attachments" Type="Self.Attachments" Multiplicity="*" />
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Attachments" Type="Self.Attachment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="id" />
@@ -654,8 +654,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CHAT_USER_1">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="ChatRooms" Type="Self.ChatRooms" Multiplicity="*" />
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="ChatRooms" Type="Self.ChatRoom" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="id" />
@@ -666,8 +666,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CHAT_USER_2">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="ChatRooms" Type="Self.ChatRooms" Multiplicity="*" />
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="ChatRooms" Type="Self.ChatRoom" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="id" />
@@ -678,20 +678,20 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MSG_CHAT">
-          <End Role="ChatRooms" Type="Self.ChatRooms" Multiplicity="0..1" />
-          <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
+          <End Role="ChatRooms" Type="Self.ChatRoom" Multiplicity="0..1" />
+          <End Role="Messages" Type="Self.Message" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ChatRooms">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Messages">
-              <PropertyRef Name="id_chat" />
+              <PropertyRef Name="chat_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_EVENT_GENRE">
-          <End Role="Genres" Type="Self.Genres" Multiplicity="0..1" />
-          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <End Role="Genres" Type="Self.Genre" Multiplicity="0..1" />
+          <End Role="Events" Type="Self.Event" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Genres">
               <PropertyRef Name="id" />
@@ -702,8 +702,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_EVENT_LOCAL">
-          <End Role="Locals" Type="Self.Locals" Multiplicity="1" />
-          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <End Role="Locals" Type="Self.Local" Multiplicity="1" />
+          <End Role="Events" Type="Self.Event" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Locals">
               <PropertyRef Name="id" />
@@ -713,21 +713,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EVENT_MUSICAN">
-          <End Role="Musicans" Type="Self.Musicans" Multiplicity="0..1" />
-          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+        <Association Name="FK_EVENT_musician">
+          <End Role="Musicians" Type="Self.Musician" Multiplicity="0..1" />
+          <End Role="Events" Type="Self.Event" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Musicans">
+            <Principal Role="Musicians">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Events">
-              <PropertyRef Name="musican_id" />
+              <PropertyRef Name="musician_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_EVENT_RATINGS">
-          <End Role="Events" Type="Self.Events" Multiplicity="1" />
-          <End Role="Ratings" Type="Self.Ratings" Multiplicity="*" />
+          <End Role="Events" Type="Self.Event" Multiplicity="1" />
+          <End Role="Ratings" Type="Self.Rating" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Events">
               <PropertyRef Name="id" />
@@ -738,8 +738,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MESSAGES_FILE">
-          <End Role="Files" Type="Self.Files" Multiplicity="0..1" />
-          <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
+          <End Role="Files" Type="Self.File" Multiplicity="0..1" />
+          <End Role="Messages" Type="Self.Message" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Files">
               <PropertyRef Name="id" />
@@ -749,21 +749,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MUSICAN_LANG">
-          <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
-          <End Role="Musicans" Type="Self.Musicans" Multiplicity="*" />
+        <Association Name="FK_musician_LANG">
+          <End Role="Languages" Type="Self.Language" Multiplicity="1" />
+          <End Role="Musicians" Type="Self.Musician" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Languages">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Musicans">
+            <Dependent Role="Musicians">
               <PropertyRef Name="songs_lang" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ID_LOCAL">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Locals" Type="Self.Locals" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Locals" Type="Self.Local" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="id" />
@@ -774,8 +774,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MSG_USER">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Messages" Type="Self.Message" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="id" />
@@ -785,21 +785,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MUSICAN_ID">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Musicans" Type="Self.Musicans" Multiplicity="0..1" />
+        <Association Name="FK_musician_ID">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Musicians" Type="Self.Musician" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Musicans">
+            <Dependent Role="Musicians">
               <PropertyRef Name="id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_USER_VALORATIONS">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Ratings" Type="Self.Ratings" Multiplicity="*" />
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Ratings" Type="Self.Rating" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="id" />
@@ -810,22 +810,22 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="UserGenres">
-          <End Role="Genres" Type="Self.Genres" Multiplicity="*" />
-          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <End Role="Genres" Type="Self.Genre" Multiplicity="*" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="gigfinderEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Aplications" EntityType="Self.Aplications" />
-          <EntitySet Name="Attachments" EntityType="Self.Attachments" />
-          <EntitySet Name="ChatRooms" EntityType="Self.ChatRooms" />
-          <EntitySet Name="Events" EntityType="Self.Events" />
-          <EntitySet Name="Files" EntityType="Self.Files" />
-          <EntitySet Name="Genres" EntityType="Self.Genres" />
-          <EntitySet Name="Languages" EntityType="Self.Languages" />
-          <EntitySet Name="Locals" EntityType="Self.Locals" />
-          <EntitySet Name="Messages" EntityType="Self.Messages" />
-          <EntitySet Name="Musicans" EntityType="Self.Musicans" />
-          <EntitySet Name="Ratings" EntityType="Self.Ratings" />
-          <EntitySet Name="Users" EntityType="Self.Users" />
+        <EntityContainer Name="gigfinderEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Aplications" EntityType="Self.Aplication" />
+          <EntitySet Name="Attachments" EntityType="Self.Attachment" />
+          <EntitySet Name="ChatRooms" EntityType="Self.ChatRoom" />
+          <EntitySet Name="Events" EntityType="Self.Event" />
+          <EntitySet Name="Files" EntityType="Self.File" />
+          <EntitySet Name="Genres" EntityType="Self.Genre" />
+          <EntitySet Name="Languages" EntityType="Self.Language" />
+          <EntitySet Name="Locals" EntityType="Self.Local" />
+          <EntitySet Name="Messages" EntityType="Self.Message" />
+          <EntitySet Name="Musicians" EntityType="Self.Musician" />
+          <EntitySet Name="Ratings" EntityType="Self.Rating" />
+          <EntitySet Name="Users" EntityType="Self.User" />
           <AssociationSet Name="FK_EVENT_APLICATIONS" Association="Self.FK_EVENT_APLICATIONS">
             <End Role="Events" EntitySet="Events" />
             <End Role="Aplications" EntitySet="Aplications" />
@@ -862,8 +862,8 @@
             <End Role="Locals" EntitySet="Locals" />
             <End Role="Events" EntitySet="Events" />
           </AssociationSet>
-          <AssociationSet Name="FK_EVENT_MUSICAN" Association="Self.FK_EVENT_MUSICAN">
-            <End Role="Musicans" EntitySet="Musicans" />
+          <AssociationSet Name="FK_EVENT_musician" Association="Self.FK_EVENT_musician">
+            <End Role="Musicians" EntitySet="Musicians" />
             <End Role="Events" EntitySet="Events" />
           </AssociationSet>
           <AssociationSet Name="FK_EVENT_RATINGS" Association="Self.FK_EVENT_RATINGS">
@@ -874,9 +874,9 @@
             <End Role="Files" EntitySet="Files" />
             <End Role="Messages" EntitySet="Messages" />
           </AssociationSet>
-          <AssociationSet Name="FK_MUSICAN_LANG" Association="Self.FK_MUSICAN_LANG">
+          <AssociationSet Name="FK_musician_LANG" Association="Self.FK_musician_LANG">
             <End Role="Languages" EntitySet="Languages" />
-            <End Role="Musicans" EntitySet="Musicans" />
+            <End Role="Musicians" EntitySet="Musicians" />
           </AssociationSet>
           <AssociationSet Name="FK_ID_LOCAL" Association="Self.FK_ID_LOCAL">
             <End Role="Users" EntitySet="Users" />
@@ -886,9 +886,9 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Messages" EntitySet="Messages" />
           </AssociationSet>
-          <AssociationSet Name="FK_MUSICAN_ID" Association="Self.FK_MUSICAN_ID">
+          <AssociationSet Name="FK_musician_ID" Association="Self.FK_musician_ID">
             <End Role="Users" EntitySet="Users" />
-            <End Role="Musicans" EntitySet="Musicans" />
+            <End Role="Musicians" EntitySet="Musicians" />
           </AssociationSet>
           <AssociationSet Name="FK_USER_VALORATIONS" Association="Self.FK_USER_VALORATIONS">
             <End Role="Users" EntitySet="Users" />
@@ -904,9 +904,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="gigfinderModelStoreContainer" CdmEntityContainer="gigfinderEntities">
+        <EntityContainerMapping StorageEntityContainer="gigfinderModelStoreContainer" CdmEntityContainer="gigfinderEntities1">
           <EntitySetMapping Name="Aplications">
-            <EntityTypeMapping TypeName="gigfinderModel.Aplications">
+            <EntityTypeMapping TypeName="gigfinderModel.Aplication">
               <MappingFragment StoreEntitySet="Aplications">
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="event_id" ColumnName="event_id" />
@@ -916,7 +916,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Attachments">
-            <EntityTypeMapping TypeName="gigfinderModel.Attachments">
+            <EntityTypeMapping TypeName="gigfinderModel.Attachment">
               <MappingFragment StoreEntitySet="Attachments">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
@@ -926,7 +926,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ChatRooms">
-            <EntityTypeMapping TypeName="gigfinderModel.ChatRooms">
+            <EntityTypeMapping TypeName="gigfinderModel.ChatRoom">
               <MappingFragment StoreEntitySet="ChatRooms">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user_id1" ColumnName="user_id1" />
@@ -935,10 +935,10 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Events">
-            <EntityTypeMapping TypeName="gigfinderModel.Events">
+            <EntityTypeMapping TypeName="gigfinderModel.Event">
               <MappingFragment StoreEntitySet="Events">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="musican_id" ColumnName="musican_id" />
+                <ScalarProperty Name="musician_id" ColumnName="musician_id" />
                 <ScalarProperty Name="local_id" ColumnName="local_id" />
                 <ScalarProperty Name="date_start" ColumnName="date_start" />
                 <ScalarProperty Name="date_end" ColumnName="date_end" />
@@ -952,7 +952,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Files">
-            <EntityTypeMapping TypeName="gigfinderModel.Files">
+            <EntityTypeMapping TypeName="gigfinderModel.File">
               <MappingFragment StoreEntitySet="Files">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="mimetype" ColumnName="mimetype" />
@@ -961,7 +961,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Genres">
-            <EntityTypeMapping TypeName="gigfinderModel.Genres">
+            <EntityTypeMapping TypeName="gigfinderModel.Genre">
               <MappingFragment StoreEntitySet="Genres">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -969,7 +969,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Languages">
-            <EntityTypeMapping TypeName="gigfinderModel.Languages">
+            <EntityTypeMapping TypeName="gigfinderModel.Language">
               <MappingFragment StoreEntitySet="Languages">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="lang" ColumnName="lang" />
@@ -977,7 +977,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Locals">
-            <EntityTypeMapping TypeName="gigfinderModel.Locals">
+            <EntityTypeMapping TypeName="gigfinderModel.Local">
               <MappingFragment StoreEntitySet="Locals">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="capacity" ColumnName="capacity" />
@@ -987,10 +987,10 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Messages">
-            <EntityTypeMapping TypeName="gigfinderModel.Messages">
+            <EntityTypeMapping TypeName="gigfinderModel.Message">
               <MappingFragment StoreEntitySet="Messages">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="id_chat" ColumnName="id_chat" />
+                <ScalarProperty Name="chat_id" ColumnName="chat_id" />
                 <ScalarProperty Name="sender" ColumnName="sender" />
                 <ScalarProperty Name="content" ColumnName="content" />
                 <ScalarProperty Name="file_identifier" ColumnName="file_identifier" />
@@ -999,9 +999,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Musicans">
-            <EntityTypeMapping TypeName="gigfinderModel.Musicans">
-              <MappingFragment StoreEntitySet="Musicans">
+          <EntitySetMapping Name="Musicians">
+            <EntityTypeMapping TypeName="gigfinderModel.Musician">
+              <MappingFragment StoreEntitySet="Musicians">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="size" ColumnName="size" />
                 <ScalarProperty Name="price" ColumnName="price" />
@@ -1010,7 +1010,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Ratings">
-            <EntityTypeMapping TypeName="gigfinderModel.Ratings">
+            <EntityTypeMapping TypeName="gigfinderModel.Rating">
               <MappingFragment StoreEntitySet="Ratings">
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="event_id" ColumnName="event_id" />
@@ -1019,7 +1019,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="gigfinderModel.Users">
+            <EntityTypeMapping TypeName="gigfinderModel.User">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -1053,7 +1053,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

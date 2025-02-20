@@ -4,19 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="058cf56dd9e34529aab17cb915f775f6" Name="Diagram1">
-        <EntityTypeShape EntityType="gigfinderModel.Aplications" Width="1.5" PointX="9.75" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="gigfinderModel.Attachments" Width="1.5" PointX="5.25" PointY="12.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="gigfinderModel.ChatRooms" Width="1.5" PointX="5.25" PointY="15.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="gigfinderModel.Events" Width="1.5" PointX="7.5" PointY="13.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="gigfinderModel.Files" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="gigfinderModel.Genres" Width="1.5" PointX="0.75" PointY="9.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="gigfinderModel.Languages" Width="1.5" PointX="6" PointY="22.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="gigfinderModel.Locals" Width="1.5" PointX="5.25" PointY="18.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="gigfinderModel.Messages" Width="1.5" PointX="10.5" PointY="14.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="gigfinderModel.Musicans" Width="1.5" PointX="8.25" PointY="18.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="gigfinderModel.Ratings" Width="1.5" PointX="12.75" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="gigfinderModel.Users" Width="1.5" PointX="3" PointY="13.25" IsExpanded="true" />
+      <Diagram DiagramId="36cc2f06836b4f1ca16710637d8274c5" Name="Diagram1">
+        <EntityTypeShape EntityType="gigfinderModel.Aplication" Width="1.5" PointX="9.75" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="gigfinderModel.Attachment" Width="1.5" PointX="5.25" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="gigfinderModel.ChatRoom" Width="1.5" PointX="5.25" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="gigfinderModel.Event" Width="1.5" PointX="7.5" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="gigfinderModel.File" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="gigfinderModel.Genre" Width="1.5" PointX="0.75" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="gigfinderModel.Language" Width="1.5" PointX="6" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="gigfinderModel.Local" Width="1.5" PointX="5.25" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="gigfinderModel.Message" Width="1.5" PointX="10.5" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="gigfinderModel.Musician" Width="1.5" PointX="8.25" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="gigfinderModel.Rating" Width="1.5" PointX="12.75" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="gigfinderModel.User" Width="1.5" PointX="3" PointY="13.25" IsExpanded="true" />
         <AssociationConnector Association="gigfinderModel.FK_EVENT_APLICATIONS" ManuallyRouted="false" />
         <AssociationConnector Association="gigfinderModel.FK_USER_APLICATIONS" ManuallyRouted="false" />
         <AssociationConnector Association="gigfinderModel.FK_ATTACHMENTS_FILE" ManuallyRouted="false" />
@@ -26,13 +26,13 @@
         <AssociationConnector Association="gigfinderModel.FK_MSG_CHAT" ManuallyRouted="false" />
         <AssociationConnector Association="gigfinderModel.FK_EVENT_GENRE" ManuallyRouted="false" />
         <AssociationConnector Association="gigfinderModel.FK_EVENT_LOCAL" ManuallyRouted="false" />
-        <AssociationConnector Association="gigfinderModel.FK_EVENT_MUSICAN" ManuallyRouted="false" />
+        <AssociationConnector Association="gigfinderModel.FK_EVENT_musician" ManuallyRouted="false" />
         <AssociationConnector Association="gigfinderModel.FK_EVENT_RATINGS" ManuallyRouted="false" />
         <AssociationConnector Association="gigfinderModel.FK_MESSAGES_FILE" ManuallyRouted="false" />
-        <AssociationConnector Association="gigfinderModel.FK_MUSICAN_LANG" ManuallyRouted="false" />
+        <AssociationConnector Association="gigfinderModel.FK_musician_LANG" ManuallyRouted="false" />
         <AssociationConnector Association="gigfinderModel.FK_ID_LOCAL" ManuallyRouted="false" />
         <AssociationConnector Association="gigfinderModel.FK_MSG_USER" ManuallyRouted="false" />
-        <AssociationConnector Association="gigfinderModel.FK_MUSICAN_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="gigfinderModel.FK_musician_ID" ManuallyRouted="false" />
         <AssociationConnector Association="gigfinderModel.FK_USER_VALORATIONS" ManuallyRouted="false" />
         <AssociationConnector Association="gigfinderModel.UserGenres" ManuallyRouted="false" />
       </Diagram>

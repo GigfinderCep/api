@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace GigFinder.Controllers.Requests
+namespace GigFinder.Controllers.Request
 {
     public class RequestSignupMusician
     {

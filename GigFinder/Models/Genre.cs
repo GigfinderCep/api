@@ -12,22 +12,21 @@ namespace GigFinder.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Musicans
+    public partial class Genre
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Musicans()
+        public Genre()
         {
-            this.Events = new HashSet<Events>();
+            this.Events = new HashSet<Event>();
+            this.Users = new HashSet<User>();
         }
     
         public int id { get; set; }
-        public byte size { get; set; }
-        public int price { get; set; }
-        public int songs_lang { get; set; }
+        public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Events> Events { get; set; }
-        public virtual Languages Languages { get; set; }
-        public virtual Users Users { get; set; }
+        public virtual ICollection<Event> Events { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<User> Users { get; set; }
     }
 }

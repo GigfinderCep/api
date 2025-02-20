@@ -12,18 +12,18 @@ namespace GigFinder.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Messages
+    public partial class Language
     {
-        public int id { get; set; }
-        public Nullable<int> id_chat { get; set; }
-        public int sender { get; set; }
-        public string content { get; set; }
-        public Nullable<int> file_identifier { get; set; }
-        public System.DateTime date { get; set; }
-        public string type { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Language()
+        {
+            this.Musicians = new HashSet<Musician>();
+        }
     
-        public virtual ChatRooms ChatRooms { get; set; }
-        public virtual Files Files { get; set; }
-        public virtual Users Users { get; set; }
+        public int id { get; set; }
+        public string lang { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Musician> Musicians { get; set; }
     }
 }

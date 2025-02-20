@@ -12,14 +12,18 @@ namespace GigFinder.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Aplications
+    public partial class Message
     {
-        public int user_id { get; set; }
-        public int event_id { get; set; }
-        public string description { get; set; }
-        public string status { get; set; }
+        public int id { get; set; }
+        public Nullable<int> chat_id { get; set; }
+        public int sender { get; set; }
+        public string content { get; set; }
+        public Nullable<int> file_identifier { get; set; }
+        public System.DateTime date { get; set; }
+        public string type { get; set; }
     
-        public virtual Events Events { get; set; }
-        public virtual Users Users { get; set; }
+        public virtual ChatRoom ChatRoom { get; set; }
+        public virtual File File { get; set; }
+        public virtual User User { get; set; }
     }
 }

@@ -12,13 +12,14 @@ namespace GigFinder.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Ratings
+    public partial class Attachment
     {
+        public int id { get; set; }
         public int user_id { get; set; }
-        public int event_id { get; set; }
-        public byte avg_rating { get; set; }
+        public int file_identifier { get; set; }
+        public string description { get; set; }
     
-        public virtual Events Events { get; set; }
-        public virtual Users Users { get; set; }
+        public virtual File File { get; set; }
+        public virtual User User { get; set; }
     }
 }

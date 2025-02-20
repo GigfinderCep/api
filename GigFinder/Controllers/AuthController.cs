@@ -7,16 +7,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
+using System.Web.Helpers;
 using System.Web.Http;
 using System.Web.Http.Description;
 using GigFinder.Models;
-using GigFinder.Controllers.Requests;
 using BCrypt.Net;
-
-using System;
-using System.Xml.Linq;
-
+using GigFinder.Controllers.Request;
 
 namespace GigFinder.Controllers
 {
@@ -35,6 +31,12 @@ namespace GigFinder.Controllers
     public class AuthController : ApiController
     {
         private gigfinderEntities1 db = new gigfinderEntities1();
+
+        // GET: api/Auth
+        public IQueryable<User> GetUsers()
+        {
+            return db.Users;
+        }
 
         private async Task<User> createUser(string name, string email, string password, string description = "", string type = UserTypes.MUSIC)
         {
@@ -67,7 +69,8 @@ namespace GigFinder.Controllers
         [Route("api/auth/signup")]
         public async Task<IHttpActionResult> Signup([FromBody] RequestSignupMusician request)
         {
-            try {             
+            try
+            {
                 if (!ModelState.IsValid)
                 {
                     // Return BadRequest with validation errors
@@ -86,9 +89,9 @@ namespace GigFinder.Controllers
                 // create new user
                 var newUser = await createUser(
                     request.Name,
-                    request.Description,
                     request.Email,
                     request.Password,
+                    request.Description,
                     UserTypes.MUSIC
                  );
 
@@ -96,7 +99,7 @@ namespace GigFinder.Controllers
                 var musican = new Musician
                 {
                     id = newUser.id,
-                    size = (byte) request.Size,
+                    size = (byte)request.Size,
                     price = request.Price,
                     songs_lang = request.LangId
                 };
@@ -112,106 +115,99 @@ namespace GigFinder.Controllers
                 return BadRequest(e.ToString());
             }
         }
- 
 
 
-    // GET: api/Auth
-    //public IQueryable<Users> GetUsers()
-    //    {
-    //        return db.Users;
-    //    }
+        //// GET: api/Auth/5
+        //[ResponseType(typeof(User))]
+        //public async Task<IHttpActionResult> GetUser(int id)
+        //{
+        //    User user = await db.Users.FindAsync(id);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-    //    // GET: api/Auth/5
-    //    [ResponseType(typeof(Users))]
-    //    public async Task<IHttpActionResult> GetUsers(int id)
-    //    {
-    //        Users users = await db.Users.FindAsync(id);
-    //        if (users == null)
-    //        {
-    //            return NotFound();
-    //        }
+        //    return Ok(user);
+        //}
 
-    //        return Ok(users);
-    //    }
+        //// PUT: api/Auth/5
+        //[ResponseType(typeof(void))]
+        //public async Task<IHttpActionResult> PutUser(int id, User user)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-    //    // PUT: api/Auth/5
-    //    [ResponseType(typeof(void))]
-    //    public async Task<IHttpActionResult> PutUsers(int id, Users users)
-    //    {
-    //        if (!ModelState.IsValid)
-    //        {
-    //            return BadRequest(ModelState);
-    //        }
+        //    if (id != user.id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-    //        if (id != users.id)
-    //        {
-    //            return BadRequest();
-    //        }
+        //    db.Entry(user).State = EntityState.Modified;
 
-    //        db.Entry(users).State = EntityState.Modified;
+        //    try
+        //    {
+        //        await db.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!UserExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-    //        try
-    //        {
-    //            await db.SaveChangesAsync();
-    //        }
-    //        catch (DbUpdateConcurrencyException)
-    //        {
-    //            if (!UsersExists(id))
-    //            {
-    //                return NotFound();
-    //            }
-    //            else
-    //            {
-    //                throw;
-    //            }
-    //        }
+        //    return StatusCode(HttpStatusCode.NoContent);
+        //}
 
-    //        return StatusCode(HttpStatusCode.NoContent);
-    //    }
+        //// POST: api/Auth
+        //[ResponseType(typeof(User))]
+        //public async Task<IHttpActionResult> PostUser(User user)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-    //    // POST: api/Auth
-    //    [ResponseType(typeof(Users))]
-    //    public async Task<IHttpActionResult> PostUsers(Users users)
-    //    {
-    //        if (!ModelState.IsValid)
-    //        {
-    //            return BadRequest(ModelState);
-    //        }
+        //    db.Users.Add(user);
+        //    await db.SaveChangesAsync();
 
-    //        db.Users.Add(users);
-    //        await db.SaveChangesAsync();
+        //    return CreatedAtRoute("DefaultApi", new { id = user.id }, user);
+        //}
 
-    //        return CreatedAtRoute("DefaultApi", new { id = users.id }, users);
-    //    }
+        //// DELETE: api/Auth/5
+        //[ResponseType(typeof(User))]
+        //public async Task<IHttpActionResult> DeleteUser(int id)
+        //{
+        //    User user = await db.Users.FindAsync(id);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-    //    // DELETE: api/Auth/5
-    //    [ResponseType(typeof(Users))]
-    //    public async Task<IHttpActionResult> DeleteUsers(int id)
-    //    {
-    //        Users users = await db.Users.FindAsync(id);
-    //        if (users == null)
-    //        {
-    //            return NotFound();
-    //        }
+        //    db.Users.Remove(user);
+        //    await db.SaveChangesAsync();
 
-    //        db.Users.Remove(users);
-    //        await db.SaveChangesAsync();
+        //    return Ok(user);
+        //}
 
-    //        return Ok(users);
-    //    }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
 
-    //    protected override void Dispose(bool disposing)
-    //    {
-    //        if (disposing)
-    //        {
-    //            db.Dispose();
-    //        }
-    //        base.Dispose(disposing);
-    //    }
-
-    //    private bool UsersExists(int id)
-    //    {
-    //        return db.Users.Count(e => e.id == id) > 0;
-    //    }
+        //private bool UserExists(int id)
+        //{
+        //    return db.Users.Count(e => e.id == id) > 0;
+        //}
     }
 }

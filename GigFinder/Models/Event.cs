@@ -12,21 +12,33 @@ namespace GigFinder.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Genres
+    public partial class Event
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Genres()
+        public Event()
         {
-            this.Events = new HashSet<Events>();
-            this.Users = new HashSet<Users>();
+            this.Aplications = new HashSet<Aplication>();
+            this.Ratings = new HashSet<Rating>();
         }
     
         public int id { get; set; }
-        public string name { get; set; }
+        public Nullable<int> musician_id { get; set; }
+        public int local_id { get; set; }
+        public System.DateTime date_start { get; set; }
+        public System.DateTime date_end { get; set; }
+        public Nullable<bool> opened_offer { get; set; }
+        public int price { get; set; }
+        public string description { get; set; }
+        public Nullable<bool> canceled { get; set; }
+        public string cancel_msg { get; set; }
+        public Nullable<int> genre_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Events> Events { get; set; }
+        public virtual ICollection<Aplication> Aplications { get; set; }
+        public virtual Genre Genre { get; set; }
+        public virtual Local Local { get; set; }
+        public virtual Musician Musician { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Users> Users { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
     }
 }

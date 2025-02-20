@@ -13,10 +13,10 @@ namespace GigFinder.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class gigfinderEntities : DbContext
+    public partial class gigfinderEntities1 : DbContext
     {
-        public gigfinderEntities()
-            : base("name=gigfinderEntities")
+        public gigfinderEntities1()
+            : base("name=gigfinderEntities1")
         {
         }
     
@@ -25,17 +25,17 @@ namespace GigFinder.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Aplications> Aplications { get; set; }
-        public virtual DbSet<Attachments> Attachments { get; set; }
-        public virtual DbSet<ChatRooms> ChatRooms { get; set; }
-        public virtual DbSet<Events> Events { get; set; }
-        public virtual DbSet<Files> Files { get; set; }
-        public virtual DbSet<Genres> Genres { get; set; }
-        public virtual DbSet<Languages> Languages { get; set; }
-        public virtual DbSet<Locals> Locals { get; set; }
-        public virtual DbSet<Messages> Messages { get; set; }
-        public virtual DbSet<Musicans> Musicans { get; set; }
-        public virtual DbSet<Ratings> Ratings { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Aplication> Aplications { get; set; }
+        public virtual DbSet<Attachment> Attachments { get; set; }
+        public virtual DbSet<ChatRoom> ChatRooms { get; set; }
+        public virtual DbSet<Event> Events { get; set; }
+        public virtual DbSet<File> Files { get; set; }
+        public virtual DbSet<Genre> Genres { get; set; }
+        public virtual DbSet<Language> Languages { get; set; }
+        public virtual DbSet<Local> Locals { get; set; }
+        public virtual DbSet<Message> Messages { get; set; }
+        public virtual DbSet<Musician> Musicians { get; set; }
+        public virtual DbSet<Rating> Ratings { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

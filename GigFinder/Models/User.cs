@@ -12,18 +12,18 @@ namespace GigFinder.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Users
+    public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Users()
+        public User()
         {
-            this.Aplications = new HashSet<Aplications>();
-            this.Attachments = new HashSet<Attachments>();
-            this.ChatRooms = new HashSet<ChatRooms>();
-            this.ChatRooms1 = new HashSet<ChatRooms>();
-            this.Messages = new HashSet<Messages>();
-            this.Ratings = new HashSet<Ratings>();
-            this.Genres = new HashSet<Genres>();
+            this.Aplications = new HashSet<Aplication>();
+            this.Attachments = new HashSet<Attachment>();
+            this.ChatRooms = new HashSet<ChatRoom>();
+            this.ChatRooms1 = new HashSet<ChatRoom>();
+            this.Messages = new HashSet<Message>();
+            this.Ratings = new HashSet<Rating>();
+            this.Genres = new HashSet<Genre>();
         }
     
         public int id { get; set; }
@@ -35,20 +35,20 @@ namespace GigFinder.Models
         public byte avg_rating { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Aplications> Aplications { get; set; }
+        public virtual ICollection<Aplication> Aplications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Attachments> Attachments { get; set; }
+        public virtual ICollection<Attachment> Attachments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChatRooms> ChatRooms { get; set; }
+        public virtual ICollection<ChatRoom> ChatRooms { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChatRooms> ChatRooms1 { get; set; }
-        public virtual Locals Locals { get; set; }
+        public virtual ICollection<ChatRoom> ChatRooms1 { get; set; }
+        public virtual Local Local { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Messages> Messages { get; set; }
-        public virtual Musicans Musicans { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
+        public virtual Musician Musician { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Ratings> Ratings { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Genres> Genres { get; set; }
+        public virtual ICollection<Genre> Genres { get; set; }
     }
 }

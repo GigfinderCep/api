@@ -12,22 +12,21 @@ namespace GigFinder.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Files
+    public partial class Local
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Files()
+        public Local()
         {
-            this.Attachments = new HashSet<Attachments>();
-            this.Messages = new HashSet<Messages>();
+            this.Events = new HashSet<Event>();
         }
     
         public int id { get; set; }
-        public string mimetype { get; set; }
-        public string path { get; set; }
+        public int capacity { get; set; }
+        public double x_coordination { get; set; }
+        public double y_coordination { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Attachments> Attachments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Messages> Messages { get; set; }
+        public virtual ICollection<Event> Events { get; set; }
+        public virtual User User { get; set; }
     }
 }

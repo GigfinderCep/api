@@ -12,21 +12,22 @@ namespace GigFinder.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ChatRooms
+    public partial class Musician
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ChatRooms()
+        public Musician()
         {
-            this.Messages = new HashSet<Messages>();
+            this.Events = new HashSet<Event>();
         }
     
         public int id { get; set; }
-        public int user_id1 { get; set; }
-        public int user_id2 { get; set; }
+        public byte size { get; set; }
+        public int price { get; set; }
+        public int songs_lang { get; set; }
     
-        public virtual Users Users { get; set; }
-        public virtual Users Users1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Messages> Messages { get; set; }
+        public virtual ICollection<Event> Events { get; set; }
+        public virtual Language Language { get; set; }
+        public virtual User User { get; set; }
     }
 }

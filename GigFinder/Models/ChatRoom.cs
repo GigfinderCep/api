@@ -12,21 +12,21 @@ namespace GigFinder.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Locals
+    public partial class ChatRoom
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Locals()
+        public ChatRoom()
         {
-            this.Events = new HashSet<Events>();
+            this.Messages = new HashSet<Message>();
         }
     
         public int id { get; set; }
-        public int capacity { get; set; }
-        public double x_coordination { get; set; }
-        public double y_coordination { get; set; }
+        public int user_id1 { get; set; }
+        public int user_id2 { get; set; }
     
+        public virtual User User { get; set; }
+        public virtual User User1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Events> Events { get; set; }
-        public virtual Users Users { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }
