@@ -6,7 +6,7 @@ using System.Web;
 
 namespace GigFinder.Controllers.Request
 {
-    public class RequestSignupMusician
+    public class RequestSignupLocal
     {
         [Required(ErrorMessage = "Name is required.")]
         [MinLength(1, ErrorMessage = "Name must be at least 1 character.")]
@@ -28,15 +28,16 @@ namespace GigFinder.Controllers.Request
         [MinLength(1, ErrorMessage = "Password must be at least 1 character.")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Size is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Size must be at least 1 person.")]
-        public int Size { get; set; }
+        [Required(ErrorMessage = "Capacity is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Capacity must be at least 1 person.")]
+        public int Capacity { get; set; }
 
-        [Required(ErrorMessage = "Price is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Price must be at least 1 person.")]
-        public int Price { get; set; }
+        [Required(ErrorMessage = "X_coordination is required.")]
+        [Range(-180, 180, ErrorMessage = "X_coordination must be between -180 and 180.")]
+        public float X_coordination { get; set; }
 
-        [Required(ErrorMessage = "Lang is required.")]
-        public int LangId { get; set; }
+        [Required(ErrorMessage = "Y_coordination is required.")]
+        [Range(-90, 90, ErrorMessage = "Y_coordination must be between -90 and 90.")]
+        public float Y_coordination { get; set; }
     }
 }
