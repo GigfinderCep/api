@@ -7,6 +7,8 @@ using System.Web.Http;
 using GigFinder.Models;
 using GigFinder.Controllers.Request;
 using GigFinder.Utils;
+using GigFinder.Attributes;
+using System.Web;
 namespace GigFinder.Controllers
 {
     public static class AuthMessages
@@ -193,6 +195,23 @@ namespace GigFinder.Controllers
             {
                 return BadRequest(e.ToString());
             }
+        }
+
+        [HttpGet]
+        [Route("whoami")]
+        [ProtectedUser]
+        public async Task<IHttpActionResult> WhoAmI()
+        {
+            User user = UserUtils.GetCurrentUser();
+
+            return Ok(new
+            {
+                id = user.id,
+                name = user.name,
+                description = user.description,
+                type = user.type,
+                avg_rating = user.avg_rating
+            });
         }
 
 
