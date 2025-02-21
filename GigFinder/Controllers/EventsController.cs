@@ -28,6 +28,8 @@ namespace GigFinder.Controllers
         {
             try
             {
+                db.Configuration.LazyLoadingEnabled = false;
+
                 if (!ModelState.IsValid)
                 {
                     // Return BadRequest with validation errors
@@ -54,7 +56,7 @@ namespace GigFinder.Controllers
 
                 db.Events.Add(newEvent);
                 await db.SaveChangesAsync();
-                return Ok(newEvent.id);
+                return Ok(newEvent);
             }
             catch(Exception e)
             {
