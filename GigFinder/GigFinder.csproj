@@ -250,6 +250,9 @@
     <Compile Include="Models\Genre.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Incidence.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Language.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

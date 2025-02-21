@@ -15,6 +15,8 @@ namespace GigFinder.Controllers
     {
         public const string EXISTS = "exists";
         public const string INVALID_EMAIL_OR_PASSWORD = "invalid_email_or_password";
+        public const string USER_NOT_FOUND = "user_not_found";
+        public const string SUCCESS = "success";
     }
 
     public static class UserTypes
@@ -204,8 +206,31 @@ namespace GigFinder.Controllers
             // create admin incidence
             try
             {
-                //db.r
-                return Ok("incidence-sended");
+                if (!ModelState.IsValid)
+                {
+                    // Return BadRequest with validation errors
+                    return BadRequest(ModelState);
+                }
+
+                User user = await db.Users
+                               .Where(u => u.email == request.Email)
+                               .FirstOrDefaultAsync();
+                if (user == null)
+                {
+                    return BadRequest(AuthMessages.USER_NOT_FOUND);
+                }
+
+                var newIncidence = new Incidence
+                {
+                    user_id = user.id,
+                    description = "forgotpass",
+                    status = "pendent"
+                };
+
+                db.Incidences.Add(newIncidence);
+                await db.SaveChangesAsync();
+
+                return Ok(AuthMessages.SUCCESS);
             }
             catch (Exception e){
                 return BadRequest(e.ToString());

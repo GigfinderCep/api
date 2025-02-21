@@ -24,6 +24,7 @@ namespace GigFinder.Models
             this.Messages = new HashSet<Message>();
             this.Ratings = new HashSet<Rating>();
             this.Genres = new HashSet<Genre>();
+            this.Incidences = new HashSet<Incidence>();
         }
     
         public int id { get; set; }
@@ -51,5 +52,7 @@ namespace GigFinder.Models
         public virtual ICollection<Rating> Ratings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Genre> Genres { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Incidence> Incidences { get; set; }
     }
 }

@@ -37,5 +37,6 @@ namespace GigFinder.Models
         public virtual DbSet<Musician> Musicians { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Incidence> Incidences { get; set; }
     }
 }

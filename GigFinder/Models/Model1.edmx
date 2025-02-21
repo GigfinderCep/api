@@ -63,6 +63,17 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="20" />
         </EntityType>
+        <EntityType Name="Incidences">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="500" />
+          <Property Name="admin_note" Type="nvarchar" MaxLength="500" />
+          <Property Name="status" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="admin_id" Type="int" />
+        </EntityType>
         <EntityType Name="Languages">
           <Key>
             <PropertyRef Name="id" />
@@ -346,6 +357,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_USER_INCIDENCES">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Incidences" Type="Self.Incidences" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Incidences">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_USER_VALORATIONS">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Ratings" Type="Self.Ratings" Multiplicity="*" />
@@ -365,6 +388,7 @@
           <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genres" EntityType="Self.Genres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Incidences" EntityType="Self.Incidences" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Locals" EntityType="Self.Locals" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
@@ -443,6 +467,10 @@
           <AssociationSet Name="FK_USER_GENRE" Association="Self.FK_USER_GENRE">
             <End Role="Users" EntitySet="Users" />
             <End Role="UserGenres" EntitySet="UserGenres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USER_INCIDENCES" Association="Self.FK_USER_INCIDENCES">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Incidences" EntitySet="Incidences" />
           </AssociationSet>
           <AssociationSet Name="FK_USER_VALORATIONS" Association="Self.FK_USER_VALORATIONS">
             <End Role="Users" EntitySet="Users" />
@@ -605,6 +633,7 @@
           <NavigationProperty Name="Ratings" Relationship="Self.FK_USER_VALORATIONS" FromRole="Users" ToRole="Ratings" />
           <NavigationProperty Name="Genres" Relationship="Self.UserGenres" FromRole="Users" ToRole="Genres" />
           <Property Name="profile_image_identifier" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Incidences" Relationship="gigfinderModel.FK_USER_INCIDENCES" FromRole="User" ToRole="Incidence" />
         </EntityType>
         <Association Name="FK_EVENT_APLICATIONS">
           <End Role="Events" Type="Self.Event" Multiplicity="1" />
@@ -899,7 +928,36 @@
             <End Role="Genres" EntitySet="Genres" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="Incidences" EntityType="gigfinderModel.Incidence" />
+          <AssociationSet Name="FK_USER_INCIDENCES" Association="gigfinderModel.FK_USER_INCIDENCES">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Incidence" EntitySet="Incidences" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Incidence">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="admin_note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="admin_id" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="gigfinderModel.FK_USER_INCIDENCES" FromRole="Incidence" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_USER_INCIDENCES">
+          <End Type="gigfinderModel.User" Role="User" Multiplicity="1" />
+          <End Type="gigfinderModel.Incidence" Role="Incidence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Incidence">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1041,6 +1099,18 @@
               <ScalarProperty Name="id" ColumnName="user_id" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Incidences">
+            <EntityTypeMapping TypeName="gigfinderModel.Incidence">
+              <MappingFragment StoreEntitySet="Incidences">
+                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="admin_note" ColumnName="admin_note" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -35,6 +35,8 @@
         <AssociationConnector Association="gigfinderModel.FK_musician_ID" ManuallyRouted="false" />
         <AssociationConnector Association="gigfinderModel.FK_USER_VALORATIONS" ManuallyRouted="false" />
         <AssociationConnector Association="gigfinderModel.UserGenres" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="gigfinderModel.Incidence" Width="1.5" PointX="5.25" PointY="8.25" />
+        <AssociationConnector Association="gigfinderModel.FK_USER_INCIDENCES" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
