@@ -8,7 +8,7 @@ using GigFinder.Models;
 using GigFinder.Controllers.Request;
 using GigFinder.Utils;
 using GigFinder.Attributes;
-using System.Web;
+
 namespace GigFinder.Controllers
 {
     public static class AuthMessages
