@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using GigFinder.Attributes;
 
 namespace GigFinder.Controllers.Request
 {
@@ -21,5 +22,12 @@ namespace GigFinder.Controllers.Request
         [Required(ErrorMessage = "Genre is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Genre must be at least 1.")]
         public int GenreId { get; set; }
+
+        [Required(ErrorMessage = "Start date is required.")]
+        public DateTime DateStart { get; set; }
+
+        [Required(ErrorMessage = "End date is required.")]
+        [DateEndValidation(nameof(DateStart))] // Custom validation attribute
+        public DateTime DateEnd { get; set; }
     }
 }

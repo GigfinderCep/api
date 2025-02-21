@@ -8,6 +8,7 @@ using GigFinder.Models;
 using GigFinder.Controllers.Request;
 using GigFinder.Utils;
 using GigFinder.Attributes;
+using System.Web.Http.Description;
 
 
 namespace GigFinder.Controllers
@@ -19,12 +20,21 @@ namespace GigFinder.Controllers
     {
         private gigfinderEntities1 db = new gigfinderEntities1();
 
+        [HttpPost]
+        [Route("create")]
+        [ProtectedUser(UserTypes.LOCAL)]
+        [ResponseType(typeof(Event))]
         public async Task<IHttpActionResult> Create([FromBody] RequestCreateEvents request)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    // Return BadRequest with validation errors
+                    return BadRequest(ModelState);
+                }
                 User user = UserUtils.GetCurrentUser();
-
+     
                 var genre = await db.Genres.FindAsync(request.GenreId);
                 if(genre == null)
                 {
@@ -35,7 +45,11 @@ namespace GigFinder.Controllers
                     local_id = user.id,
                     price = request.Price,
                     description = request.Description,
-                    genre_id = request.GenreId
+                    genre_id = request.GenreId,
+                    date_start = request.DateStart,
+                    date_end = request.DateEnd,
+                    opened_offer = true,
+                    canceled = false
                 };
 
                 db.Events.Add(newEvent);
