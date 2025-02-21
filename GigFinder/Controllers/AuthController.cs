@@ -197,6 +197,22 @@ namespace GigFinder.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("forgotpass")]
+        public async Task<IHttpActionResult> ForgotPassword([FromBody] RequestForgotPassword request)
+        {
+            // create admin incidence
+            try
+            {
+                //db.r
+                return Ok("incidence-sended");
+            }
+            catch (Exception e){
+                return BadRequest(e.ToString());
+            }
+        }
+
+
         [HttpGet]
         [Route("whoami")]
         [ProtectedUser]
@@ -215,7 +231,7 @@ namespace GigFinder.Controllers
             });
         }
 
-
+        
         //// GET: api/Auth/5
         //[ResponseType(typeof(User))]
         //public async Task<IHttpActionResult> GetUser(int id)

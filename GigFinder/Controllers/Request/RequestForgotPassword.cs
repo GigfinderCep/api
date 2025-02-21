@@ -6,16 +6,11 @@ using System.Web;
 
 namespace GigFinder.Controllers.Request
 {
-    public class RequestLogin
+    public class RequestForgotPassword
     {
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid email address.")]
         [MaxLength(100, ErrorMessage = "Email must be maxium 100 character.")]
         public string Email { get; set; }
-
-        [Required(ErrorMessage = "Password is required.")]
-        [MinLength(1, ErrorMessage = "Password must be at least 1 character.")]
-        [MaxLength(100, ErrorMessage = "Name must be maxium 100 character.")]
-        public string Password { get; set; }
     }
 }

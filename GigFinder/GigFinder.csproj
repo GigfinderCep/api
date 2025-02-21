@@ -224,6 +224,7 @@
     <Compile Include="Attributes\ProtectedUserAttribute.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Request\RequestForgotPassword.cs" />
     <Compile Include="Controllers\Request\RequestLogin.cs" />
     <Compile Include="Controllers\Request\RequestSignupLocal.cs" />
     <Compile Include="Controllers\Request\RequestSignupMusician.cs" />
