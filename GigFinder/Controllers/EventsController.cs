@@ -63,5 +63,56 @@ namespace GigFinder.Controllers
                 return BadRequest(e.ToString());
             }
         }
+
+        [HttpPost]
+        [Route("{eventId}/aplicate")]
+        [ProtectedUser(UserTypes.MUSIC)]
+        public async Task<IHttpActionResult> CreateAplication(int eventId,[FromBody] RequestCreateAplication request)
+        {
+            try
+            {
+                if (eventId < 1)
+                {
+                    return BadRequest("Invalid event ID. It must be a numeric value greater than or equal to 1.");
+                }
+
+                db.Configuration.LazyLoadingEnabled = false;
+
+                if (!ModelState.IsValid)
+                {
+                    // Return BadRequest with validation errors
+                    return BadRequest(ModelState);
+                }
+                User user = UserUtils.GetCurrentUser();
+
+                var appEvent = await db.Events.FindAsync(eventId);
+                if (appEvent == null)
+                {
+                    return BadRequest("genre not found");
+                }
+
+                bool applicationExists = await db.Aplications
+            .       AnyAsync(a => a.user_id == user.id && a.event_id == eventId);
+                if(applicationExists)
+                {
+                    return BadRequest("aplication exists");
+                }
+                var newApplication = new Aplication
+                {
+                    user_id = user.id,
+                    description = request.Description,
+                    event_id = eventId,
+                    status = "pendent"
+                };
+
+                db.Aplications.Add(newApplication);
+                await db.SaveChangesAsync();
+                return Ok(ResponseMessages.SUCCESS);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
     }
 }

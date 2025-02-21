@@ -226,6 +226,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Request\RequestCreateAplication.cs" />
     <Compile Include="Controllers\Request\RequestCreateEvents.cs" />
     <Compile Include="Controllers\Request\RequestForgotPassword.cs" />
     <Compile Include="Controllers\Request\RequestLogin.cs" />

@@ -11,7 +11,7 @@ using GigFinder.Attributes;
 
 namespace GigFinder.Controllers
 {
-    public static class AuthMessages
+    public static class ResponseMessages
     {
         public const string EXISTS = "exists";
         public const string INVALID_EMAIL_OR_PASSWORD = "invalid_email_or_password";
@@ -80,7 +80,7 @@ namespace GigFinder.Controllers
                                 .FirstOrDefaultAsync();
                 if (user != null)
                 {
-                    return BadRequest(AuthMessages.EXISTS);
+                    return BadRequest(ResponseMessages.EXISTS);
                 }
 
                 // create new user
@@ -131,7 +131,7 @@ namespace GigFinder.Controllers
                                 .FirstOrDefaultAsync();
                 if (user != null)
                 {
-                    return BadRequest(AuthMessages.EXISTS);
+                    return BadRequest(ResponseMessages.EXISTS);
                 }
 
                 // create new user
@@ -181,14 +181,14 @@ namespace GigFinder.Controllers
                                 .FirstOrDefaultAsync();
                 if (user == null)
                 {
-                    return BadRequest(AuthMessages.INVALID_EMAIL_OR_PASSWORD);
+                    return BadRequest(ResponseMessages.INVALID_EMAIL_OR_PASSWORD);
                 }
 
                 // validate user password
                 var correctPassword = BCrypt.Net.BCrypt.Verify(request.Password, user.password);
                 if (!correctPassword)
                 {
-                    return BadRequest(AuthMessages.INVALID_EMAIL_OR_PASSWORD);
+                    return BadRequest(ResponseMessages.INVALID_EMAIL_OR_PASSWORD);
                 }
 
                 return Ok(Jwt.GenerateUserJwt(user));
@@ -217,7 +217,7 @@ namespace GigFinder.Controllers
                                .FirstOrDefaultAsync();
                 if (user == null)
                 {
-                    return BadRequest(AuthMessages.USER_NOT_FOUND);
+                    return BadRequest(ResponseMessages.USER_NOT_FOUND);
                 }
 
                 var newIncidence = new Incidence
@@ -230,7 +230,7 @@ namespace GigFinder.Controllers
                 db.Incidences.Add(newIncidence);
                 await db.SaveChangesAsync();
 
-                return Ok(AuthMessages.SUCCESS);
+                return Ok(ResponseMessages.SUCCESS);
             }
             catch (Exception e){
                 return BadRequest(e.ToString());
