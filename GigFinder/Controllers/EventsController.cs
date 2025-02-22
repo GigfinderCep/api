@@ -122,6 +122,44 @@ namespace GigFinder.Controllers
         }
 
         [HttpPost]
+        [Route("{eventId}/cancel")]
+        [ProtectedUser]
+        public async Task<IHttpActionResult> CancelEvent(int eventId)
+        {
+            try
+            {
+                if (eventId < 1)
+                {
+                    return BadRequest("Invalid event ID. It must be a numeric value greater than or equal to 1.");
+                }
+
+                User user = UserUtils.GetCurrentUser();
+
+                var appEvent = await db.Events.FindAsync(eventId);
+                if (appEvent == null)
+                {
+                    return BadRequest("event not found");
+                }
+                if(appEvent.canceled == true)
+                {
+                    return BadRequest("application already canceled");
+                }
+               if(appEvent.musician_id != user.id && appEvent.local_id != user.id)
+                {
+                    return BadRequest("you are not authorized to perform that action");
+                }
+                appEvent.canceled = true;
+
+                await db.SaveChangesAsync();
+                return Ok(ResponseMessages.SUCCESS);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
+
+        [HttpPost]
         [Route("{eventId}/aplication/{userId}/accept")]
         [ProtectedUser(UserTypes.LOCAL)]
         public async Task<IHttpActionResult> AcceptAplication(int eventId, int userId)
