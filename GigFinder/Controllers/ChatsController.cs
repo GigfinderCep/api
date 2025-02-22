@@ -88,6 +88,15 @@ namespace GigFinder.Controllers
                     return BadRequest(ModelState);
                 }
                 User user = UserUtils.GetCurrentUser();
+                ChatRoom chatRoom = await db.ChatRooms.FindAsync(chatId);
+                if(chatRoom == null)
+                {
+                    return BadRequest("chat room not found");
+                }
+                if(chatRoom.user_id1 != user.id && chatRoom.user_id2 != user.id)
+                {
+                    return BadRequest("you are not member of this chatroom");
+                }
 
                 var msg = new Message
                 {
