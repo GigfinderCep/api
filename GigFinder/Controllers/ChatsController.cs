@@ -12,6 +12,11 @@ using System.Data.Entity;
 
 namespace GigFinder.Controllers
 {
+    public static class MessageTypes
+    {
+        public static string MESSAGE = "message";
+        public static string AUDIO = "audio";
+    }
     [RoutePrefix("api/chats")]
     [ProtectedUser]
     public class ChatsController: ApiController
@@ -73,8 +78,32 @@ namespace GigFinder.Controllers
         [Route("{chatId}/send-message")]
         public async Task<IHttpActionResult> SendMessage(int chatId, [FromBody] RequestSendMessage request)
         {
-            return Ok();
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
 
+                if (!ModelState.IsValid)
+                {
+                    // Return BadRequest with validation errors
+                    return BadRequest(ModelState);
+                }
+                User user = UserUtils.GetCurrentUser();
+
+                var msg = new Message
+                {
+                    chat_id = chatId,
+                    sender = user.id,
+                    content = request.Content,
+                    date = request.Date,
+                    type = MessageTypes.MESSAGE
+                };
+                db.Messages.Add(msg);
+                await db.SaveChangesAsync();
+                return Ok(msg);
+            }catch(Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
         }
 
         [HttpGet]
