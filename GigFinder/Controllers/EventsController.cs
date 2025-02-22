@@ -21,7 +21,6 @@ namespace GigFinder.Controllers
     }
 
     [RoutePrefix("api/events")]
-    [ProtectedUser(UserTypes.LOCAL)]
     public class EventsController : ApiController
     {
         private gigfinderEntities1 db = new gigfinderEntities1();
@@ -65,6 +64,53 @@ namespace GigFinder.Controllers
                 return Ok(newEvent);
             }
             catch(Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
+
+        [HttpGet]
+        [Route("all/opened")]
+        public async Task<IHttpActionResult> GetAll()
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+
+                var events = await db.Events
+                 .Include(e => e.Local) // Include Local
+                 .Include(e => e.Genre) // Include Genre
+                 .Where(e => e.opened_offer == true)
+                 .Select(e => new
+                 {
+                     e.id,
+                     e.description,
+                     e.date_start,
+                     e.date_end,
+                     e.price,
+                     e.opened_offer,
+                     e.canceled,
+                     e.cancel_msg,
+                     Genre = new
+                     {
+                         e.Genre.id,
+                         e.Genre.name // Include only required fields, avoiding `Genre.Events`
+                     },
+                     Local = new
+                     {
+                         e.Local.id,
+                         e.Local.capacity,
+                         e.Local.x_coordination,
+                         e.Local.y_coordination
+                     }
+                 })
+                 .ToListAsync();
+
+
+
+                return Ok(events);
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.ToString());
             }
@@ -206,6 +252,7 @@ namespace GigFinder.Controllers
                 }
 
                 appEvent.musician_id = aplication.user_id;
+                appEvent.opened_offer = false;
                 aplication.status = AplicationTypes.ACCEPTED;
 
                  var otherApplications = db.Aplications
