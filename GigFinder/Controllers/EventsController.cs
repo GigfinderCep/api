@@ -118,7 +118,7 @@ namespace GigFinder.Controllers
         }
 
         [HttpGet]
-        [Route("all-my")]
+        [Route("all/my")]
         [ProtectedUser]
         public async Task<IHttpActionResult> GetAllMyEvents()
         {
