@@ -116,6 +116,52 @@ namespace GigFinder.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("all-my")]
+        [ProtectedUser]
+        public async Task<IHttpActionResult> GetAllMyEvents()
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+
+                User user = UserUtils.GetCurrentUser();
+
+                var events = await db.Events
+                 .Include(e => e.Local) // Include Local
+                 .Include(e => e.Genre) // Include Genre
+                 .Where(e => (e.local_id == user.id || e.musician_id == user.id))
+                 .Select(e => new
+                 {
+                     e.id,
+                     e.description,
+                     e.date_start,
+                     e.date_end,
+                     e.price,
+                     e.opened_offer,
+                     e.canceled,
+                     e.cancel_msg,
+                     Genre = new
+                     {
+                         e.Genre.id,
+                         e.Genre.name // Include only required fields, avoiding `Genre.Events`
+                     },
+                     e.local_id,
+                     e.musician_id
+                 })
+                 .ToListAsync();
+
+
+
+                return Ok(events);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
+
+
         [HttpPost]
         [Route("{eventId}/aplicate")]
         [ProtectedUser(UserTypes.MUSIC)]
