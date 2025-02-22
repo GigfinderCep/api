@@ -119,15 +119,44 @@ namespace GigFinder.Controllers
         [Route("{chatId}/messages")]
         public async Task<IHttpActionResult> GetChatMessages(int chatId)
         {
-            return Ok();
-
+            try
+            {
+                List<Message> messages = await db.Messages
+                                                .Where(m => m.chat_id == chatId)
+                                                .ToListAsync();
+                return Ok(messages ?? new List<Message>());
+            }catch(Exception _)
+            {
+                return Ok(new List<Message>());
+            }
         }
 
         [HttpGet]
         [Route("all")]
         public async Task<IHttpActionResult> GetAllChats()
         {
-            return Ok();
+            try
+            {
+
+
+                db.Configuration.LazyLoadingEnabled = false;
+
+                if (!ModelState.IsValid)
+                {
+                    // Return BadRequest with validation errors
+                    return BadRequest(ModelState);
+                }
+                User user = UserUtils.GetCurrentUser();
+                List<ChatRoom> chatRooms = await db.ChatRooms.
+                                Where(c => c.user_id1 == user.id || c.user_id2 == user.id)
+                                .ToListAsync();
+ 
+
+                return Ok(chatRooms ?? new List<ChatRoom>());
+            }catch(Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
 
         }
     }
