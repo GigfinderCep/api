@@ -121,6 +121,8 @@ namespace GigFinder.Controllers
         {
             try
             {
+                db.Configuration.LazyLoadingEnabled = false;
+
                 List<Message> messages = await db.Messages
                                                 .Where(m => m.chat_id == chatId)
                                                 .ToListAsync();
@@ -132,7 +134,6 @@ namespace GigFinder.Controllers
         }
 
         [HttpGet]
-        [Route("all")]
         public async Task<IHttpActionResult> GetAllChats()
         {
             try

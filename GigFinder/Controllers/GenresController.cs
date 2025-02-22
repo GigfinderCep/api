@@ -16,7 +16,6 @@ namespace GigFinder.Controllers
         private gigfinderEntities1 db = new gigfinderEntities1();
 
         [HttpGet]
-        [Route("all")]
         public async Task<IHttpActionResult> GetAll()
         {
             try

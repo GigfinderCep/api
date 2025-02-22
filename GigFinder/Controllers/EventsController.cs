@@ -70,7 +70,6 @@ namespace GigFinder.Controllers
         }
 
         [HttpGet]
-        [Route("all/opened")]
         public async Task<IHttpActionResult> GetAll()
         {
             try
@@ -118,7 +117,7 @@ namespace GigFinder.Controllers
         }
 
         [HttpGet]
-        [Route("all/my")]
+        [Route("my")]
         [ProtectedUser]
         public async Task<IHttpActionResult> GetAllMyEvents()
         {
