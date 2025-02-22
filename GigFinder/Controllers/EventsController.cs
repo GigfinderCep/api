@@ -9,10 +9,16 @@ using GigFinder.Controllers.Request;
 using GigFinder.Utils;
 using GigFinder.Attributes;
 using System.Web.Http.Description;
+using Microsoft.Extensions.Logging;
 
 
 namespace GigFinder.Controllers
 {
+    public static class AplicationTypes {
+        public const string ACCEPTED = "accepted";
+        public const string PENDENT = "pendent";
+        public const string REJECTED = "rejected";
+    }
 
     [RoutePrefix("api/events")]
     [ProtectedUser(UserTypes.LOCAL)]
@@ -88,7 +94,7 @@ namespace GigFinder.Controllers
                 var appEvent = await db.Events.FindAsync(eventId);
                 if (appEvent == null)
                 {
-                    return BadRequest("genre not found");
+                    return BadRequest("event not found");
                 }
 
                 bool applicationExists = await db.Aplications
@@ -106,6 +112,73 @@ namespace GigFinder.Controllers
                 };
 
                 db.Aplications.Add(newApplication);
+                await db.SaveChangesAsync();
+                return Ok(ResponseMessages.SUCCESS);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
+
+        [HttpPost]
+        [Route("{eventId}/aplication/{userId}/accept")]
+        [ProtectedUser(UserTypes.LOCAL)]
+        public async Task<IHttpActionResult> AcceptAplication(int eventId, int userId)
+        {
+            try
+            {
+
+                if(eventId < 1)
+                {
+                    return BadRequest("Invalid event ID. It must be a numeric value greater than or equal to 1.");
+                }
+
+                if (userId < 1)
+                {
+                    return BadRequest("Invalid event ID. It must be a numeric value greater than or equal to 1.");
+                }
+
+                db.Configuration.LazyLoadingEnabled = false;
+
+                if (!ModelState.IsValid)
+                {
+                    // Return BadRequest with validation errors
+                    return BadRequest(ModelState);
+                }
+                User user = UserUtils.GetCurrentUser();
+
+                var aplication = await db.Aplications
+                                      .FirstOrDefaultAsync(a => a.user_id == userId && a.event_id == eventId);
+
+                if (aplication == null)
+                {
+                    return BadRequest("aplication not found");
+                }
+                var appEvent = await db.Events.FindAsync(aplication.event_id);
+       
+                if (!appEvent.local_id.Equals(user.id))
+                {
+                    return BadRequest("user is not authorized to manage event requests");
+                }
+
+                if(appEvent.musician_id != null)
+                {
+                    return BadRequest("event already accepted an aplication");
+                }
+
+                appEvent.musician_id = aplication.user_id;
+                aplication.status = AplicationTypes.ACCEPTED;
+
+                 var otherApplications = db.Aplications
+                    .Where(a => a.event_id == appEvent.id && a.user_id != userId)
+                    .ToList();
+
+                foreach (var app in otherApplications)
+                {
+                    app.status = AplicationTypes.REJECTED;
+                }
+                
                 await db.SaveChangesAsync();
                 return Ok(ResponseMessages.SUCCESS);
             }
