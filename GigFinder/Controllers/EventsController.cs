@@ -101,7 +101,8 @@ namespace GigFinder.Controllers
                          e.Local.id,
                          e.Local.capacity,
                          e.Local.x_coordination,
-                         e.Local.y_coordination
+                         e.Local.y_coordination,
+                         e.Local.User.profile_image_identifier
                      }
                  })
                  .ToListAsync();
