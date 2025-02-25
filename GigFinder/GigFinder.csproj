@@ -235,6 +235,8 @@
     <Compile Include="Controllers\Request\RequestSendMessage.cs" />
     <Compile Include="Controllers\Request\RequestSignupLocal.cs" />
     <Compile Include="Controllers\Request\RequestSignupMusician.cs" />
+    <Compile Include="Controllers\Request\RequestUpsertRating.cs" />
+    <Compile Include="Controllers\UserProfileController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

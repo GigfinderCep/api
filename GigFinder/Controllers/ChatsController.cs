@@ -43,6 +43,10 @@ namespace GigFinder.Controllers
             IHttpActionResult response;
             try
             {
+                if(otherUser < 1)
+                {
+                    return BadRequest("invalid other user id");
+                }
 
                 User user = UserUtils.GetCurrentUser();
 
@@ -80,6 +84,10 @@ namespace GigFinder.Controllers
         {
             try
             {
+                if(chatId < 1)
+                {
+                    return BadRequest("invalid chat id");
+                }
                 db.Configuration.LazyLoadingEnabled = false;
 
                 if (!ModelState.IsValid)
@@ -121,6 +129,10 @@ namespace GigFinder.Controllers
         {
             try
             {
+                if (chatId < 1)
+                {
+                    return BadRequest("invalid chat id");
+                }
                 db.Configuration.LazyLoadingEnabled = false;
 
                 List<Message> messages = await db.Messages
@@ -138,8 +150,6 @@ namespace GigFinder.Controllers
         {
             try
             {
-
-
                 db.Configuration.LazyLoadingEnabled = false;
 
                 if (!ModelState.IsValid)

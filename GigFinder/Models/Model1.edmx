@@ -118,6 +118,7 @@
           </Key>
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="event_id" Type="int" Nullable="false" />
+          <Property Name="content" Type="nvarchar" MaxLength="255" />
           <Property Name="avg_rating" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="UserGenres">
@@ -611,6 +612,7 @@
           <Property Name="avg_rating" Type="Byte" Nullable="false" />
           <NavigationProperty Name="Event" Relationship="Self.FK_EVENT_RATINGS" FromRole="Ratings" ToRole="Events" />
           <NavigationProperty Name="User" Relationship="Self.FK_USER_VALORATIONS" FromRole="Ratings" ToRole="Users" />
+          <Property Name="content" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -1071,6 +1073,7 @@
           <EntitySetMapping Name="Ratings">
             <EntityTypeMapping TypeName="gigfinderModel.Rating">
               <MappingFragment StoreEntitySet="Ratings">
+                <ScalarProperty Name="content" ColumnName="content" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="event_id" ColumnName="event_id" />
                 <ScalarProperty Name="avg_rating" ColumnName="avg_rating" />

@@ -17,6 +17,7 @@ namespace GigFinder.Models
         public int user_id { get; set; }
         public int event_id { get; set; }
         public byte avg_rating { get; set; }
+        public string content { get; set; }
     
         public virtual Event Event { get; set; }
         public virtual User User { get; set; }

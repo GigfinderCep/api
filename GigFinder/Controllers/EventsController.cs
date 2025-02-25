@@ -318,5 +318,64 @@ namespace GigFinder.Controllers
                 return BadRequest(e.ToString());
             }
         }
+
+        [HttpPost]
+        [Route("{eventId}/upsert/rating")]
+        [ProtectedUser]
+        public async Task<IHttpActionResult> AddRatingToEvent(int eventId, [FromBody] RequestUpsertRating request)
+        {
+            try
+            {
+                if (eventId < 1)
+                {
+                    return BadRequest("Invalid event ID. It must be a numeric value greater than or equal to 1.");
+                }
+
+                db.Configuration.LazyLoadingEnabled = false;
+
+                if (!ModelState.IsValid)
+                {
+                    // Return BadRequest with validation errors
+                    return BadRequest(ModelState);
+                }
+                User user = UserUtils.GetCurrentUser();
+
+                var appEvent = await db.Events.FindAsync(eventId);
+                if (appEvent == null)
+                {
+                    return BadRequest("event not found");
+                }
+                if(appEvent.musician_id != user.id && appEvent.local_id != user.id)
+                {
+                    return BadRequest("you are not authorized to add a request to the event");
+                }
+                Rating rating = await db.Ratings
+                                    .Where(r => r.user_id == user.id && r.event_id == eventId)
+                                     .FirstOrDefaultAsync();
+                if(rating == null)
+                {
+                    Rating newRating = new Rating
+                    {
+                        avg_rating = (byte)request.Stars,
+                        content = request.Content,
+                        user_id = user.id,
+                        event_id = eventId
+                    };
+                    db.Ratings.Add(newRating);
+                }
+                else
+                {
+                    rating.avg_rating = (byte) request.Stars;
+                    rating.content = request.Content;
+                }
+
+                await db.SaveChangesAsync();
+
+                return Ok();
+            }catch(Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
     }
 }
