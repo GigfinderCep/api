@@ -39,5 +39,8 @@ namespace GigFinder.Controllers.Request
 
         [Required(ErrorMessage = "Lang is required.")]
         public int LangId { get; set; }
+
+        [MinLength(0, ErrorMessage = "Genres array must have at least 0 items.")]
+        public int[] Genres { get; set; } = Array.Empty<int>(); // Default to empty array
     }
 }

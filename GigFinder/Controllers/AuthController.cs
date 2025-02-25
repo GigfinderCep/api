@@ -101,6 +101,17 @@ namespace GigFinder.Controllers
                     songs_lang = request.LangId
                 };
                 db.Musicians.Add(musican);
+
+                foreach (var item in request.Genres)
+                {
+                    Genre genre = await db.Genres.FindAsync(item);
+                    if(genre == null)
+                    {
+                        return BadRequest("genre does not exists");
+                    }
+                    
+                    newUser.Genres.Add(genre);
+                }
                 await db.SaveChangesAsync();
 
                 // create musican
@@ -152,6 +163,17 @@ namespace GigFinder.Controllers
                     y_coordination = request.Y_coordination
                 };
                 db.Locals.Add(local);
+
+                foreach (var item in request.Genres)
+                {
+                    Genre genre = await db.Genres.FindAsync(item);
+                    if (genre == null)
+                    {
+                        return BadRequest("genre does not exists");
+                    }
+
+                    newUser.Genres.Add(genre);
+                }
                 await db.SaveChangesAsync();
 
                 // create musican

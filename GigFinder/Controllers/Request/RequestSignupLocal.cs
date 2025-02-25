@@ -40,5 +40,8 @@ namespace GigFinder.Controllers.Request
         [Required(ErrorMessage = "Y_coordination is required.")]
         [Range(-90, 90, ErrorMessage = "Y_coordination must be between -90 and 90.")]
         public float Y_coordination { get; set; }
+
+        [MinLength(0, ErrorMessage = "Genres array must have at least 0 items.")]
+        public int[] Genres { get; set; } = Array.Empty<int>(); // Default to empty array
     }
 }
