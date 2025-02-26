@@ -228,6 +228,7 @@
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\GenresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RequestUpdateLocal.cs" />
     <Compile Include="Controllers\Request\RequestCreateAplication.cs" />
     <Compile Include="Controllers\Request\RequestCreateEvents.cs" />
     <Compile Include="Controllers\Request\RequestForgotPassword.cs" />
@@ -235,6 +236,7 @@
     <Compile Include="Controllers\Request\RequestSendMessage.cs" />
     <Compile Include="Controllers\Request\RequestSignupLocal.cs" />
     <Compile Include="Controllers\Request\RequestSignupMusician.cs" />
+    <Compile Include="Controllers\Request\RequestUpdateMusician.cs" />
     <Compile Include="Controllers\Request\RequestUpsertRating.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />

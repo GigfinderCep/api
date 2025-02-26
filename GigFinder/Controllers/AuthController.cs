@@ -55,6 +55,7 @@ namespace GigFinder.Controllers
             // Add the new user to the Users table
             db.Users.Add(newUser);
 
+
             // Save the changes to the database
             await db.SaveChangesAsync();
 
@@ -154,7 +155,7 @@ namespace GigFinder.Controllers
                     UserTypes.LOCAL
                  );
 
-                // create musican 
+                // create local 
                 var local = new Local
                 {
                     id = newUser.id,
@@ -179,6 +180,99 @@ namespace GigFinder.Controllers
                 // create musican
 
                 return Ok(Jwt.GenerateUserJwt(newUser));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
+
+        // POSt: api/auth/signup/musician
+        [HttpPut]
+        [Route("update/musician")]
+        [ProtectedUser(UserTypes.MUSIC)]
+        public async Task<IHttpActionResult> UpdateMusician([FromBody] RequestSignupMusician request)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    // Return BadRequest with validation errors
+                    return BadRequest(ModelState);
+                }
+
+                User user = UserUtils.GetCurrentUser();
+
+                user.name = request.Name;
+                user.description = request.Description;
+
+                Musician musician = user.Musician;
+                musician.size = (byte)request.Size;
+                musician.price = request.Price;
+                musician.songs_lang = request.LangId;
+
+              
+                user.Genres.Clear();
+                foreach (var item in request.Genres)
+                {
+                    Genre genre = await db.Genres.FindAsync(item);
+                    if (genre == null)
+                    {
+                        return BadRequest("genre does not exists");
+                    }
+
+                    user.Genres.Add(genre);
+                }
+                await db.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
+
+        // POSt: api/auth/signup/local
+        [HttpPut]
+        [Route("update/local")]
+        [ProtectedUser(UserTypes.LOCAL)]
+        public async Task<IHttpActionResult> UpdatesLocal([FromBody] RequestUpdateLocal request)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    // Return BadRequest with validation errors
+                    return BadRequest(ModelState);
+                }
+
+                User user = UserUtils.GetCurrentUser();
+
+                user.name = request.Name;
+                user.description = request.Description;
+
+                Local local = user.Local;
+                local.capacity = request.Capacity;
+                local.x_coordination = request.X_coordination;
+                local.y_coordination = request.Y_coordination;
+                
+                user.Genres.Clear();
+                foreach (var item in request.Genres)
+                {
+                    Genre genre = await db.Genres.FindAsync(item);
+                    if (genre == null)
+                    {
+                        return BadRequest("genre does not exists");
+                    }
+
+                    user.Genres.Add(genre);
+                }
+                await db.SaveChangesAsync();
+
+                // create musican
+
+                return Ok();
             }
             catch (Exception e)
             {
