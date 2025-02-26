@@ -19,6 +19,16 @@ namespace GigFinder.Controllers.Request
 
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Invalid email address.")]
+        [MaxLength(100, ErrorMessage = "Email must be maxium 100 character.")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Password is required.")]
+        [MinLength(1, ErrorMessage = "Password must be at least 1 character.")]
+        [MaxLength(100, ErrorMessage = "Name must be maxium 100 character.")]
+        public string Password { get; set; }
+
         [Required(ErrorMessage = "Size is required.")]
         [Range(1, int.MaxValue, ErrorMessage = "Size must be at least 1 person.")]
         public int Size { get; set; }

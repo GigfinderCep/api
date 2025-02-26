@@ -228,6 +228,7 @@
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\GenresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LangController.cs" />
     <Compile Include="Controllers\RequestUpdateLocal.cs" />
     <Compile Include="Controllers\Request\RequestCreateAplication.cs" />
     <Compile Include="Controllers\Request\RequestCreateEvents.cs" />

@@ -191,7 +191,7 @@ namespace GigFinder.Controllers
         [HttpPut]
         [Route("update/musician")]
         [ProtectedUser(UserTypes.MUSIC)]
-        public async Task<IHttpActionResult> UpdateMusician([FromBody] RequestSignupMusician request)
+        public async Task<IHttpActionResult> UpdateMusician([FromBody] RequestUpdateMusician request)
         {
             try
             {
