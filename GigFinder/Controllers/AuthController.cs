@@ -201,12 +201,28 @@ namespace GigFinder.Controllers
                     return BadRequest(ModelState);
                 }
 
-                User user = UserUtils.GetCurrentUser();
+                int userId = UserUtils.GetCurrentUser().id; // Get only the ID, not the entire User object
+
+                // Load the User and related entities within the SAME DbContext instance
+                User user = await db.Users
+                    .Include(u => u.Local)
+                    .Include(u => u.Genres)
+                    .FirstOrDefaultAsync(u => u.id == userId);
+
+                if (user == null)
+                {
+                    return NotFound(); // If the user does not exist, return 404
+                }
 
                 user.name = request.Name;
                 user.description = request.Description;
 
                 Musician musician = user.Musician;
+                if(musician == null)
+                {
+                    return NotFound();
+                }
+
                 musician.size = (byte)request.Size;
                 musician.price = request.Price;
                 musician.songs_lang = request.LangId;
@@ -247,16 +263,40 @@ namespace GigFinder.Controllers
                     return BadRequest(ModelState);
                 }
 
-                User user = UserUtils.GetCurrentUser();
+                int userId = UserUtils.GetCurrentUser().id; // Get only the ID, not the entire User object
 
+                // Load the User and related entities within the SAME DbContext instance
+                User user = await db.Users
+                    .Include(u => u.Local)
+                    .Include(u => u.Genres)
+                    .FirstOrDefaultAsync(u => u.id == userId);
+
+                if (user == null)
+                {
+                    return NotFound(); // If the user does not exist, return 404
+                }
+
+                // Ensure the user is tracked before updating
+                db.Entry(user).State = EntityState.Modified;
+
+                // Update user properties
                 user.name = request.Name;
                 user.description = request.Description;
 
                 Local local = user.Local;
+
+                if (local == null)
+                {
+                    return NotFound(); // Handle case where local is missing
+                }
+
+                db.Entry(local).State = EntityState.Modified;
+
+                // Update Local properties
                 local.capacity = request.Capacity;
                 local.x_coordination = request.X_coordination;
                 local.y_coordination = request.Y_coordination;
-                
+
                 user.Genres.Clear();
                 foreach (var item in request.Genres)
                 {
