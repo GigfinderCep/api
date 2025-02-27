@@ -9,7 +9,6 @@ using GigFinder.Controllers.Request;
 using GigFinder.Utils;
 using GigFinder.Attributes;
 using System.Web.Http.Description;
-using Microsoft.Extensions.Logging;
 
 
 namespace GigFinder.Controllers

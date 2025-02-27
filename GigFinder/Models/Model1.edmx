@@ -22,7 +22,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="user_id" Type="int" Nullable="false" />
           <Property Name="file_identifier" Type="int" Nullable="false" />
-          <Property Name="description" Type="varchar" MaxLength="1" />
+          <Property Name="description" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="ChatRooms">
           <Key>
@@ -501,7 +501,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="user_id" Type="Int32" Nullable="false" />
           <Property Name="file_identifier" Type="Int32" Nullable="false" />
-          <Property Name="description" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="File" Relationship="Self.FK_ATTACHMENTS_FILE" FromRole="Attachments" ToRole="Files" />
           <NavigationProperty Name="User" Relationship="Self.FK_USER_ATTACHMENTS" FromRole="Attachments" ToRole="Users" />
         </EntityType>
