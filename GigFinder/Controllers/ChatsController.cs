@@ -261,10 +261,20 @@ namespace GigFinder.Controllers
                 }
                 db.Configuration.LazyLoadingEnabled = false;
 
-                List<Message> messages = await db.Messages
+                var messages = await db.Messages
+                                                .Include(m => m.File)
                                                 .Where(m => m.chat_id == chatId)
+                                                .Select(m => new
+                                                {
+                                                    m.id,
+                                                    m.content,
+                                                    m.sender,
+                                                    m.date,
+                                                    m.type,
+                                                    audiopath = m.File.path
+                                                })
                                                 .ToListAsync();
-                return Ok(messages ?? new List<Message>());
+                return Ok(messages);
             }catch(Exception _)
             {
                 return Ok(new List<Message>());
