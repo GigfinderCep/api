@@ -100,7 +100,7 @@ namespace GigFinder.Controllers
                 User user = UserUtils.GetCurrentUser();
 
                 // Define the server path for storing images
-                string root = HttpContext.Current.Server.MapPath("~/wwwroot/uploads");
+                string root = HttpContext.Current.Server.MapPath("~/wwwroot/uploads/attachment");
                 if (!Directory.Exists(root))
                 {
                     Directory.CreateDirectory(root);
@@ -138,7 +138,7 @@ namespace GigFinder.Controllers
                 var file = new GigFinder.Models.File
                 {
                     mimetype = extension,
-                    path = "" 
+                    path = ""
                 };
                 db.Files.Add(file);
                 await db.SaveChangesAsync();
@@ -155,7 +155,7 @@ namespace GigFinder.Controllers
                 System.IO.File.Move(fileData.LocalFileName, newFilePath);
 
                 // Update the file path in the database
-                file.path = $"/wwwroot/uploads/{newFileName}";
+                file.path = $"/wwwroot/uploads/attachment/{newFileName}";
                 await db.SaveChangesAsync();
 
                 // Create attachment and associate it with the file
@@ -205,7 +205,7 @@ namespace GigFinder.Controllers
                 User user = UserUtils.GetCurrentUser();
 
                 // Define the server path for storing images
-                string root = HttpContext.Current.Server.MapPath("~/wwwroot/uploads");
+                string root = HttpContext.Current.Server.MapPath("~/wwwroot/uploads/profile");
                 if (!Directory.Exists(root))
                 {
                     Directory.CreateDirectory(root);
@@ -243,7 +243,7 @@ namespace GigFinder.Controllers
                 System.IO.File.Move(fileData.LocalFileName, newFilePath);
 
                 // Update the file path in the database
-                user.profile_image_identifier = $"/wwwroot/uploads/{newFileName}";
+                user.profile_image_identifier = $"/wwwroot/uploads/profile/{newFileName}";
                 await db.SaveChangesAsync();
 
                 // Return the file URL
@@ -266,7 +266,5 @@ namespace GigFinder.Controllers
                 return InternalServerError(ex);
             }
         }
-
-
     }
 }
