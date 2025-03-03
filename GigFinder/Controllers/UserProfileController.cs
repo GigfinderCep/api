@@ -189,6 +189,84 @@ namespace GigFinder.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("upload-profile-image")]
+        [ProtectedUser]
+        public async Task<IHttpActionResult> UploadProfileImage()
+        {
+            try
+            {
+                // Check if the request contains multipart form data
+                if (!Request.Content.IsMimeMultipartContent())
+                {
+                    return BadRequest("Invalid request type. Must be multipart/form-data.");
+                }
+
+                User user = UserUtils.GetCurrentUser();
+
+                // Define the server path for storing images
+                string root = HttpContext.Current.Server.MapPath("~/wwwroot/uploads");
+                if (!Directory.Exists(root))
+                {
+                    Directory.CreateDirectory(root);
+                }
+
+                // Read multipart data
+                var provider = new MultipartFormDataStreamProvider(root);
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                // Process uploaded file
+                MultipartFileData fileData = provider.FileData.FirstOrDefault();
+                if (fileData == null)
+                {
+                    return BadRequest("No file uploaded.");
+                }
+
+                // Get file extension
+                string fileName = Path.GetFileName(fileData.Headers.ContentDisposition.FileName.Trim('"'));
+                string extension = Path.GetExtension(fileName).ToLower();
+                if (!new[] { ".jpg", ".png", ".jpeg", ".gif" }.Contains(extension))
+                {
+                    return BadRequest("Invalid file type. Only JPG, PNG, and GIF are allowed.");
+                }
+
+
+                // Use the file's ID as the new file name
+                string newFileName = $"{user.id}_usesrprofile{extension}";
+                string newFilePath = Path.Combine(root, newFileName);
+                if (System.IO.File.Exists(newFilePath))
+                {
+                    // If the file exists, delete it first
+                    System.IO.File.Delete(newFilePath);
+                }
+                // Move file to the final location
+                System.IO.File.Move(fileData.LocalFileName, newFilePath);
+
+                // Update the file path in the database
+                user.profile_image_identifier = $"/wwwroot/uploads/{newFileName}";
+                await db.SaveChangesAsync();
+
+                // Return the file URL
+                return Ok(user.profile_image_identifier);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                // Capture validation errors and log them
+                var errorMessages = ex.EntityValidationErrors
+                    .SelectMany(x => x.ValidationErrors)
+                    .Select(x => x.ErrorMessage);
+
+                // Log the errors
+                string errorMessage = string.Join(", ", errorMessages);
+                return BadRequest($"Validation failed: {errorMessage}");
+            }
+
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
 
     }
 }
