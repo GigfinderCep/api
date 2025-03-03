@@ -54,7 +54,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="mimetype" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="path" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="path" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="Genres">
           <Key>
@@ -543,7 +543,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="mimetype" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="path" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="path" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Attachments" Relationship="Self.FK_ATTACHMENTS_FILE" FromRole="Files" ToRole="Attachments" />
           <NavigationProperty Name="Messages" Relationship="Self.FK_MESSAGES_FILE" FromRole="Files" ToRole="Messages" />
         </EntityType>
