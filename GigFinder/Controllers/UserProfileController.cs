@@ -129,9 +129,9 @@ namespace GigFinder.Controllers
                 // Get file extension
                 string fileName = Path.GetFileName(fileData.Headers.ContentDisposition.FileName.Trim('"'));
                 string extension = Path.GetExtension(fileName).ToLower();
-                if (!new[] { ".jpg", ".png", ".jpeg", ".gif" }.Contains(extension))
+                if (!new[] { ".jpg", ".png", ".jpeg", ".gif", ".mp4" }.Contains(extension))
                 {
-                    return BadRequest("Invalid file type. Only JPG, PNG, and GIF are allowed.");
+                    return BadRequest("Invalid file type. Only JPG, PNG, GIF and MP4 are allowed.");
                 }
 
                 // Create a temporary file entry in the database first

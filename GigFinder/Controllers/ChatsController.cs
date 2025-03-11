@@ -19,6 +19,7 @@ namespace GigFinder.Controllers
     {
         public static string MESSAGE = "message";
         public static string AUDIO = "audio";
+        public static string MEDIA = "media";
     }
     [RoutePrefix("api/chats")]
     [ProtectedUser]
@@ -195,7 +196,7 @@ namespace GigFinder.Controllers
                 string[] allowedExtensions = { ".mp3" };
                 if (!allowedExtensions.Contains(extension))
                 {
-                    return BadRequest("Invalid file type. Only MP3, WAV, OGG, AAC, FLAC, and M4A are allowed.");
+                    return BadRequest("Invalid file type. Only MP3 are allowed.");
                 }
 
                 // Create a temporary file entry in the database first
@@ -254,6 +255,128 @@ namespace GigFinder.Controllers
             }
         }
 
+         [HttpPost]
+        [Route("{chatId}/send-media")]
+        public async Task<IHttpActionResult> SendMedia(int chatId)
+        {
+            try
+            {
+                if (chatId < 1)
+                {
+                    return BadRequest("invalid chat id");
+                }
+                db.Configuration.LazyLoadingEnabled = false;
+
+                // Check if the request contains multipart form data
+                if (!Request.Content.IsMimeMultipartContent())
+                {
+                    return BadRequest("Invalid request type. Must be multipart/form-data.");
+                }
+
+                User user = UserUtils.GetCurrentUser();
+                ChatRoom chatRoom = await db.ChatRooms.FindAsync(chatId);
+                if (chatRoom == null)
+                {
+                    return BadRequest("chat room not found");
+                }
+                if (chatRoom.user_id1 != user.id && chatRoom.user_id2 != user.id)
+                {
+                    return BadRequest("you are not member of this chatroom");
+                }
+
+                // Define the server path for storing audio files
+                string root = HttpContext.Current.Server.MapPath("~/wwwroot/uploads/media");
+                if (!Directory.Exists(root))
+                {
+                    Directory.CreateDirectory(root);
+                }
+
+                // Read multipart data
+                var provider = new MultipartFormDataStreamProvider(root);
+                await Request.Content.ReadAsMultipartAsync(provider);
+                // get the date
+                string dateStr = provider.FormData["date"];
+
+                // Validate datea field
+                if (string.IsNullOrWhiteSpace(dateStr) || !DateTime.TryParse(dateStr, out DateTime date))
+                {
+                    return BadRequest("Invalid date format. Please provide a valid DateTime.");
+                }
+
+
+                // Process uploaded file
+                MultipartFileData fileData = provider.FileData.FirstOrDefault();
+                if (fileData == null)
+                {
+                    return BadRequest("No file uploaded.");
+                }
+
+                // Get file extension
+                string fileName = Path.GetFileName(fileData.Headers.ContentDisposition.FileName.Trim('"'));
+                string extension = Path.GetExtension(fileName).ToLower();
+
+                // Allowed audio formats
+                if (!new[] { ".jpg", ".png", ".jpeg", ".gif", ".mp4" }.Contains(extension))
+                {
+                    return BadRequest("Invalid file type. Only JPG, PNG, GIF and MP4 are allowed.");
+                }
+
+                // Create a temporary file entry in the database first
+                var file = new GigFinder.Models.File
+                {
+                    mimetype = extension,
+                    path = ""  // Temporary, to be updated after moving the file
+                };
+                db.Files.Add(file);
+                await db.SaveChangesAsync();
+
+                // Use the file's ID as the new file name
+                string newFileName = $"{file.id}{extension}";
+                string newFilePath = Path.Combine(root, newFileName);
+
+                // Check if the file already exists, delete it before moving the new one
+                if (System.IO.File.Exists(newFilePath))
+                {
+                    System.IO.File.Delete(newFilePath);
+                }
+
+                // Move the uploaded file to the final location
+                System.IO.File.Move(fileData.LocalFileName, newFilePath);
+
+                // Update the file path in the database
+                file.path = $"/wwwroot/uploads/media/{newFileName}";
+
+                var msg = new Message
+                {
+                    chat_id = chatId,
+                    sender = user.id,
+                    content = "",
+                    file_identifier = file.id,
+                    date = date,
+                    type = MessageTypes.MEDIA
+                };
+                db.Messages.Add(msg);
+                await db.SaveChangesAsync();
+
+
+                // Return the file URL
+                return Ok(msg);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                // Capture validation errors and return them
+                var errorMessages = ex.EntityValidationErrors
+                    .SelectMany(x => x.ValidationErrors)
+                    .Select(x => x.ErrorMessage);
+
+                return BadRequest($"Validation failed: {string.Join(", ", errorMessages)}");
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [HttpGet]
         [Route("{chatId}/messages")]
         public async Task<IHttpActionResult> GetChatMessages(int chatId)
@@ -276,7 +399,7 @@ namespace GigFinder.Controllers
                                                     m.sender,
                                                     m.date,
                                                     m.type,
-                                                    audiopath = m.File.path
+                                                    filepath = m.File.path
                                                 })
                                                 .ToListAsync();
                 return Ok(messages);
