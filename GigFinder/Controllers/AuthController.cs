@@ -124,6 +124,29 @@ namespace GigFinder.Controllers
                 return BadRequest(e.ToString());
             }
         }
+        [HttpGet]
+        [Route("email-exists")]
+        public async Task<IHttpActionResult> EmailExists([FromUri] string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return BadRequest("Email cannot be empty.");
+            }
+
+            // Validate user does not exist
+            User user = await db.Users
+                                .Where(u => u.email == email)
+                                .FirstOrDefaultAsync();
+
+            if (user != null)
+            {
+                return Ok(true);  // Email exists
+            }
+            else
+            {
+                return Ok(false);  // Email does not exist
+            }
+        }
 
         // POSt: api/auth/signup/local
         [HttpPost]
