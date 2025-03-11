@@ -29,6 +29,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="encriptionKey" Type="nvarchar" MaxLength="44" Nullable="false" />
           <Property Name="user_id1" Type="int" Nullable="false" />
           <Property Name="user_id2" Type="int" Nullable="false" />
         </EntityType>
@@ -515,6 +516,7 @@
           <NavigationProperty Name="User" Relationship="Self.FK_CHAT_USER_1" FromRole="ChatRooms" ToRole="Users" />
           <NavigationProperty Name="User1" Relationship="Self.FK_CHAT_USER_2" FromRole="ChatRooms" ToRole="Users" />
           <NavigationProperty Name="Messages" Relationship="Self.FK_MSG_CHAT" FromRole="ChatRooms" ToRole="Messages" />
+          <Property Name="encriptionKey" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="Event">
           <Key>
@@ -989,6 +991,7 @@
           <EntitySetMapping Name="ChatRooms">
             <EntityTypeMapping TypeName="gigfinderModel.ChatRoom">
               <MappingFragment StoreEntitySet="ChatRooms">
+                <ScalarProperty Name="encriptionKey" ColumnName="encriptionKey" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user_id1" ColumnName="user_id1" />
                 <ScalarProperty Name="user_id2" ColumnName="user_id2" />

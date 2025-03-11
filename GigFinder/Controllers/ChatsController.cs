@@ -59,20 +59,25 @@ namespace GigFinder.Controllers
                 {
                     int firstUser = user.id < otherUser ? user.id : otherUser;
                     int secondUser = user.id > otherUser ? user.id : otherUser;
+                    string encriptionKey = EncryptionUtility.GenerateAesKey();
                     ChatRoom newChat = new ChatRoom
                     {
                         user_id1 = firstUser,
                         user_id2 = secondUser,
+                        encriptionKey = encriptionKey
                         
                     };
                     db.ChatRooms.Add(newChat);
                     await db.SaveChangesAsync();
-                    response = Ok(newChat.id);
+                    chatRoom = newChat;
                 }
-                else
+                var chatRes = new
                 {
-                    response = Ok(chatRoom.id);
-                }
+                    id = chatRoom.id,
+                    encriptionKey = chatRoom.encriptionKey  // Convert byte[] to base64 string
+                };
+                response = Ok(chatRes);
+
             }catch(Exception e)
             {
                 response = BadRequest(e.ToString());

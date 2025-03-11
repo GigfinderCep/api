@@ -23,6 +23,7 @@ namespace GigFinder.Models
         public int id { get; set; }
         public int user_id1 { get; set; }
         public int user_id2 { get; set; }
+        public string encriptionKey { get; set; }
     
         public virtual User User { get; set; }
         public virtual User User1 { get; set; }
